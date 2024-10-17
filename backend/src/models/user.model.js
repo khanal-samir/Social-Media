@@ -60,6 +60,8 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.methods.isPasswordCorrect = async function (password) {
+  console.log("commingpass", password);
+  console.log("Here pass", this.password);
   return await bcrypt.compare(password, this.password);
 };
 userSchema.methods.generateAccessToken = function () {
