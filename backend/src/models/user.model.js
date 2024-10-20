@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 const userSchema = new Schema(
@@ -26,6 +27,7 @@ const userSchema = new Schema(
     },
     bio: {
       type: String,
+      default: "",
     },
     avatar: {
       type: String, // cloudinary
@@ -33,6 +35,7 @@ const userSchema = new Schema(
     },
     coverImage: {
       type: String, // cloudinary
+      default: "",
     },
     password: {
       type: String,
@@ -53,6 +56,7 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
+userSchema.plugin(mongooseAggregatePaginate);
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);

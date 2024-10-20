@@ -1,6 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs"; // file system from nodejs
-import { getPublicUrl } from "./publicUrl";
+import { getPublicUrl } from "./publicUrl.js";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUDNAME,
@@ -8,7 +8,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_APISECRET,
 });
 
-const uploadOnCloudinary = async (localFilePath, type) => {
+export const uploadOnCloudinary = async (localFilePath, type) => {
   try {
     if (!localFilePath) return;
     const response = await cloudinary.uploader.upload(localFilePath, {
@@ -23,7 +23,7 @@ const uploadOnCloudinary = async (localFilePath, type) => {
   }
 };
 
-const deleteFromCloudinary = async (fileUrl, type) => {
+export const deleteFromCloudinary = async (fileUrl, type) => {
   try {
     if (!fileUrl) return;
     const publicId = getPublicUrl(fileUrl);
