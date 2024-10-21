@@ -14,6 +14,7 @@ import {
   fetchUserDetails,
   addRetweets,
   fetchUserRetweets,
+  getAllUsers,
 } from "../controllers/user.controller.js";
 const router = Router();
 router.route("/register").post(
@@ -38,6 +39,7 @@ router.route("/refresh-token").post(verifyJWT, refreshAccessToken);
 router.route("/change-password").post(verifyJWT, changePassword);
 router.route("/current-user").get(verifyJWT, getCurrentUser);
 router.route("/update-account").patch(verifyJWT, updateAccountDetails);
+router.route("/all-users").get(verifyJWT, getAllUsers);
 
 router
   .route("/avatar")

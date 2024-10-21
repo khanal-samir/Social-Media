@@ -95,4 +95,5 @@ userSchema.methods.generateRefreshToken = function () {
     }
   );
 };
+userSchema.plugin(mongooseAggregatePaginate);
 export const User = mongoose.model("User", userSchema);

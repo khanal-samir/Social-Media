@@ -363,6 +363,61 @@ export const fetchUserDetails = asyncHandler(async (req, res) => {
       )
     );
 });
+
+export const getAllUsers = asyncHandler(async (req, res) => {
+  const {
+    page = 1, // pageNumber
+    limit = 5, // no of tweet in single query
+    query = "", // for search
+    sortBy = "createdAt",
+    sortType = 1, // assending
+  } = req.query;
+
+  const pipeline = [
+    {
+      $match: {
+        // match the query
+        $or: [
+          {
+            username: { $regex: query, $options: "i" },
+          },
+          {
+            email: { $regex: query, $options: "i" },
+          },
+          {
+            fullName: { $regex: query, $options: "i" },
+          },
+        ],
+      },
+    },
+    {
+      $project: {
+        username: 1,
+        email: 1,
+        avatar: 1,
+      },
+    },
+    {
+      // sort assending by createdAt
+      $sort: { [sortBy]: sortType },
+    },
+  ];
+  const options = {
+    page: parseInt(page),
+    limit: parseInt(limit),
+  };
+
+  const users = await User.aggregatePaginate(User.aggregate(pipeline), options);
+  //console.log(users);
+
+  if (!users)
+    throw new ApiError(500, "Something went wrong while fetching users");
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, users.docs, "users fetched successfully"));
+});
+
 // add retweets
 export const addRetweets = asyncHandler(async (req, res) => {
   const { tweetId } = req.body || req.params;

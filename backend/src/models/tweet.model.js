@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const tweetSchema = new Schema(
   {
@@ -14,9 +15,10 @@ const tweetSchema = new Schema(
     },
     media: {
       type: String, //cloudinary
-      enum: ["video", "image"],
+      default: "",
     },
   },
   { timestamps: true }
 );
+tweetSchema.plugin(mongooseAggregatePaginate);
 export const Tweet = mongoose.model("Tweet", tweetSchema);
