@@ -14,7 +14,7 @@ export const uploadOnCloudinary = async (localFilePath, type) => {
     const response = await cloudinary.uploader.upload(localFilePath, {
       resource_type: type || "auto",
     });
-    console.log("uploaded", response.url);
+    // console.log("uploaded", response.url);
     fs.unlinkSync(localFilePath); // delete from server
     return response;
   } catch (error) {
@@ -30,10 +30,10 @@ export const deleteFromCloudinary = async (fileUrl, type) => {
     const response = await cloudinary.uploader.destroy(publicId, {
       resource_type: type || "auto",
     });
-    console.log("Deleted", response);
+    //console.log("Deleted", response);
     return response;
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
     return null;
   }
 };

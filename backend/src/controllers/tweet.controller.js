@@ -1,5 +1,6 @@
 // create update delete getSingleTweetById getAllTweet(aggPage) getUserTweets  TODO add followingtweets controller
 import { Tweet } from "../models/tweet.model.js";
+import { Follower } from "../models/followers.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -7,7 +8,7 @@ import {
   uploadOnCloudinary,
   deleteFromCloudinary,
 } from "../utils/cloudinary.js";
-import mongoose, { connect } from "mongoose";
+import mongoose from "mongoose";
 
 export const createTweet = asyncHandler(async (req, res) => {
   const { content } = req.body;
@@ -31,10 +32,15 @@ export const createTweet = asyncHandler(async (req, res) => {
     if (!tweet)
       throw new ApiError(500, "Something went wrong while creating tweet");
 
+    const newTweet = await Tweet.findById(tweet?._id).populate(
+      "owner",
+      "email avatar fullName"
+    );
+
     return res
       .status(201)
       .json(
-        new ApiResponse(201, tweet, "tweet with media created successfully")
+        new ApiResponse(201, newTweet, "tweet with media created successfully")
       );
   }
   const tweet = await Tweet.create({
@@ -44,10 +50,15 @@ export const createTweet = asyncHandler(async (req, res) => {
   if (!tweet)
     throw new ApiError(500, "Something went wrong while creating tweet");
 
+  const newTweet = await Tweet.findById(tweet?._id).populate(
+    "owner",
+    "email avatar fullName"
+  );
+
   return res
     .status(201)
     .json(
-      new ApiResponse(201, tweet, "tweet without media created successfully")
+      new ApiResponse(201, newTweet, "tweet without media created successfully")
     );
 });
 
@@ -107,7 +118,11 @@ export const getSingleTweetById = asyncHandler(async (req, res) => {
   if (!mongoose.isValidObjectId(tweetId))
     throw new ApiError(400, "Invalid tweetId");
 
-  const tweet = await Tweet.findById(tweetId);
+  const tweet = await Tweet.findById(tweetId).populate(
+    "owner",
+    "email username avatar"
+  );
+
   if (!tweet)
     throw new ApiError(500, "Something went wrong while fetching the tweet");
 
@@ -117,9 +132,10 @@ export const getSingleTweetById = asyncHandler(async (req, res) => {
 });
 
 export const getAllTweet = asyncHandler(async (req, res) => {
+  // aggregation and pagination
   const {
     page = 1, // pageNumber
-    limit = 10, // no of tweet in single query
+    limit = 20, // no of tweet in single query
     query = "", // for search
     sortBy = "createdAt",
     sortType = -1, // descending
@@ -147,7 +163,6 @@ export const getAllTweet = asyncHandler(async (req, res) => {
         pipeline: [
           {
             $project: {
-              _id: 1,
               username: 1,
               avatar: 1,
               email: 1,
@@ -199,7 +214,7 @@ export const getUserTweets = asyncHandler(async (req, res) => {
     limit = 10, // no of tweet in single query
     query = "", // for search
     sortBy = "createdAt",
-    sortType = 1, // assending
+    sortType = -1, // assending
     // if username
   } = req.query;
 
@@ -256,9 +271,27 @@ export const getUserTweets = asyncHandler(async (req, res) => {
     }
   );
   if (!tweets)
+    // maybe return res no tweets
     throw new ApiError(500, "Something went wrong while getting users tweets");
 
   return res
     .status(200)
-    .json(new ApiResponse(200, tweets.docs, "User data fetched successfully"));
+    .json(new ApiResponse(200, tweets, "User data fetched successfully"));
 });
+
+//TODO
+// export const getFollowingTweets = asyncHandler(async (req, res) => {
+//   // aggragation only
+
+//   const followingTweets = await Tweet.aggregate([
+//     {
+//       $match: {
+//         owner: { $ne: req.user?._id },
+//       },
+//     },
+//   ]);
+
+//   return res
+//     .status(200)
+//     .json(new ApiResponse(200, followingTweets, "Following tweets fetched"));
+// });

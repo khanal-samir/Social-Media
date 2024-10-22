@@ -96,8 +96,8 @@ export const loginUser = asyncHandler(async (req, res) => {
     "-password -refreshToken"
   );
 
-  console.log("Tokens", accessToken);
-  console.log("token", refreshToken);
+  // console.log("Tokens", accessToken);
+  // console.log("token", refreshToken);
 
   const options = {
     httpOnly: true,
@@ -235,7 +235,7 @@ export const updateAccountDetails = asyncHandler(async (req, res) => {
 
 export const updateAvatarPic = asyncHandler(async (req, res) => {
   const avatarLocalPath = req.file?.path; // single file
-  console.log("avatar local file path", avatarLocalPath);
+  // console.log("avatar local file path", avatarLocalPath);
   if (!avatarLocalPath) throw new ApiError(400, "new avatar is required");
 
   const newAvatar = await uploadOnCloudinary(avatarLocalPath, "image");
@@ -243,7 +243,7 @@ export const updateAvatarPic = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Something went wrong while uploading file");
 
   const deleteOldAvatar = await deleteFromCloudinary(req.user?.avatar, "image");
-  console.log("avatar deleting", deleteOldAvatar);
+  // console.log("avatar deleting", deleteOldAvatar);
 
   const updatedUser = await User.findByIdAndUpdate(
     req.user?._id,
@@ -263,7 +263,7 @@ export const updateAvatarPic = asyncHandler(async (req, res) => {
 });
 export const updateCoverImage = asyncHandler(async (req, res) => {
   const coverImageLocalPath = req.file?.path;
-  console.log("cover", coverImageLocalPath);
+  // console.log("cover", coverImageLocalPath);
 
   if (!coverImageLocalPath)
     throw new ApiError(400, "new Cover image is required");
@@ -274,7 +274,7 @@ export const updateCoverImage = asyncHandler(async (req, res) => {
 
   if (req.user?.coverImage.trim()) {
     const response = await deleteFromCloudinary(req.user.coverImage, "image");
-    console.log("coverImage delete", response);
+    //console.log("coverImage delete", response);
   }
   const updateUser = await User.findByIdAndUpdate(
     req.user?._id,
@@ -420,8 +420,8 @@ export const getAllUsers = asyncHandler(async (req, res) => {
 
 // add retweets
 export const addRetweets = asyncHandler(async (req, res) => {
-  const { tweetId } = req.body || req.params;
-  if (!tweetId.trim()) throw new ApiError(404, "Invalid tweetId");
+  const { tweetId } = req.params;
+  if (!tweetId) throw new ApiError(404, "Invalid tweetId");
 
   const user = await User.findById(req.user?._id);
 
@@ -500,12 +500,12 @@ export const fetchUserRetweets = asyncHandler(async (req, res) => {
     {
       $project: {
         username: 1,
-        retweet: 1,
+
         userRetweets: 1,
       },
     },
   ]);
-  console.log("retweets", userRetweets[0]);
+  //console.log("retweets", userRetweets[0]);
   return res
     .status(200)
     .json(
