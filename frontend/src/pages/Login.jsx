@@ -71,7 +71,7 @@ const Login = () => {
                 </Button>
               </DialogTrigger>
 
-              <DialogContent className=" bg-black text-white rounded-md">
+              <DialogContent className="max-w-96 bg-black text-white rounded-md">
                 <DialogHeader>
                   <DialogTitle>
                     <FaXTwitter />
@@ -85,18 +85,21 @@ const Login = () => {
                   <div>
                     <Label>
                       <p className="text-lg font-semibold">
-                        Enter Email or Username:
+                        Email or Username:
                       </p>
                       <Input
                         className="bg-black"
-                        placeholder="Email or Username"
+                        placeholder="Enter your Email or Username"
                       />
                     </Label>
                   </div>
                   <div>
                     <Label>
-                      <p className="text-lg font-semibold">Enter Password:</p>
-                      <Input className="bg-black" placeholder="Password" />
+                      <p className="text-lg font-semibold">Password:</p>
+                      <Input
+                        className="bg-black"
+                        placeholder="Enter your Password"
+                      />
                     </Label>
                   </div>
                   <Button

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "./components/ui/button";
-import { Login } from "./pages";
+import { Login, Signup } from "./pages";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -20,7 +20,8 @@ function App() {
     //   <p className="text-sm text-muted-foreground">Enter your email address.</p>
     // </div>
     <div>
-      <Login />
+      {/* <Login /> */}
+      <Signup />
     </div>
   );
 }
