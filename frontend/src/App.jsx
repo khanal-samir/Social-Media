@@ -1,27 +1,31 @@
-import { useState } from "react";
-import { Button } from "./components/ui/button";
-import { Login, Signup } from "./pages";
-function App() {
-  const [count, setCount] = useState(0);
+import { Outlet, useLocation } from "react-router-dom";
 
+import { Nav, Sidebar } from "./components";
+function App() {
+  const location = useLocation();
+  const hideHeaderFooter =
+    location.pathname === "/login" || location.pathname === "/signup";
   return (
-    // <div className="w-screen h-screen flex flex-col items-center justify-center border-2 flex-wrap ">
-    //   <Button>Hey</Button>
-    //   <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-    //     Taxing Laughter: The Joke Tax Chronicles
-    //   </h1>
-    //   <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-    //     The People of the Kingdom
-    //   </h2>{" "}
-    //   <p className="leading-7 [&:not(:first-child)]:mt-6">
-    //     The king, seeing how much happier his subjects were, realized the error
-    //     of his ways and repealed the joke tax.
-    //   </p>
-    //   <p className="text-sm text-muted-foreground">Enter your email address.</p>
-    // </div>
     <div>
-      {/* <Login /> */}
-      <Signup />
+      {hideHeaderFooter ? (
+        <div>
+          <Outlet />
+        </div>
+      ) : (
+        <div className="min-h-screen grid grid-cols-6 sm:grid-cols-12">
+          <div className="col-span-1 sm:col-span-2">
+            <Nav />
+          </div>
+
+          <div className="col-span-5 sm:col-span-7">
+            <Outlet />
+          </div>
+
+          <div className="hidden sm:block sm:col-span-3 border-2 border-blue-500">
+            <Sidebar />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

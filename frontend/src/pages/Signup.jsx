@@ -13,12 +13,12 @@ import { FaXTwitter } from "react-icons/fa6";
 
 const Signup = () => {
   return (
-    <div className="w-full min-h-screen bg-black text-white sm:grid sm:grid-cols-12 sm:gap-2">
-      <FaXTwitter className=" w-full m-auto hidden sm:col-span-4 sm:block sm:p-10 sm:text-[24em] " />
+    <div className="min-h-screen bg-black text-white sm:grid sm:grid-cols-12 sm:gap-2 overflow-hidden">
+      <FaXTwitter className="w-full m-auto hidden sm:col-span-4 sm:block sm:p-10 sm:text-[24em] " />
 
-      <form className="w-full h-full space-y-4 p-2 sm:col-span-8 sm:p-4 sm:grid sm:justify-center">
+      <form className="space-y-4 sm:col-span-8 p-4 sm:grid sm:justify-center">
         <Tabs defaultValue="required" className="sm:min-w-[28rem] max-w-96">
-          <TabsList className="w-full grid grid-cols-2 font-bold">
+          <TabsList className="grid grid-cols-2 font-bold">
             <TabsTrigger value="required">Required</TabsTrigger>
             <TabsTrigger value="optional">Optional</TabsTrigger>
           </TabsList>
@@ -78,7 +78,7 @@ const Signup = () => {
           </TabsContent>
 
           <TabsContent value="optional">
-            <Card className="h-full bg-black text-white">
+            <Card className="bg-black text-white">
               <CardHeader>
                 <CardTitle>
                   <FaXTwitter />
@@ -109,7 +109,7 @@ const Signup = () => {
         <Button
           variant="outline"
           type="submit"
-          className="m-auto sm:min-w-[28rem] max-w-96  bg-black  border-b-2 active:border-black"
+          className="sm:min-w-[28rem] max-w-96  bg-black"
         >
           Submit
         </Button>

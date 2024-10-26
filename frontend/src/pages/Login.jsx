@@ -32,13 +32,13 @@ const Login = () => {
     "Settings",
   ];
   return (
-    <div className="w-full h-full min-h-screen bg-black text-white font-sans">
-      <div className="flex flex-col sm:flex-row gap-10 sm:justify-around p-10">
-        <div className="sm:w-full  sm:flex sm:justify-center sm:items-center">
+    <div className="min-h-screen bg-black text-white overflow-hidden">
+      <div className="flex flex-col gap-4 sm:flex-row sm:justify-around p-6">
+        <div className="sm:flex sm:justify-center sm:items-center">
           <FaXTwitter className="text-5xl sm:text-[20rem]" />
         </div>
 
-        <div className="sm:w-full sm:p-10">
+        <div className="sm:p-10 p-2">
           <h1 className="text-4xl font-extrabold sm:text-7xl tracking-tight">
             Happening now
           </h1>
