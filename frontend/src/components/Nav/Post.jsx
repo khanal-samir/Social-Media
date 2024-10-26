@@ -15,7 +15,7 @@ const Post = () => {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button className="w-full h-12 rounded-3xl bg-blue-500 hover:opacity-90 hover:bg-blue-500 text-sm sm:text-lg sm:font-bold">
+        <Button className="w-full h-12 rounded-3xl dark:text-white bg-blue-500 hover:opacity-90 hover:bg-blue-500 text-sm sm:text-lg sm:font-bold">
           <span className="hidden sm:block">Post</span>
           <FaFeather className="sm:hidden" />
         </Button>
@@ -47,7 +47,7 @@ const Post = () => {
         <div className="flex justify-between px-4">
           <div>
             <label htmlFor="image">
-              <FaImage className="w-10 h-10 text-blue-600" />
+              <FaImage className="w-10 h-10 text-blue-600 cursor-pointer" />
             </label>
             <Input id="image" className="hidden" type="file" />
           </div>

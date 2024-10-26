@@ -6,7 +6,7 @@ import {
   FaUser,
   FaImage,
 } from "react-icons/fa";
-
+import { IoSettings } from "react-icons/io5";
 const Icons = () => {
   // w-full h-full works on inner eleement or icons better
   const navItems = [
@@ -39,6 +39,12 @@ const Icons = () => {
       label: "Profile",
       icon: <FaUser className=" w-full h-full sm:w-auto sm:h-auto text-3xl" />,
     },
+    {
+      label: "Settings",
+      icon: (
+        <IoSettings className=" w-full h-full sm:w-auto sm:h-auto text-3xl" />
+      ),
+    },
   ];
 
   return (
@@ -46,7 +52,7 @@ const Icons = () => {
       {navItems.map((item, index) => (
         <div
           key={index}
-          className="p-2 flex gap-x-2 sm:gap-x-4 overflow-hidden cursor-pointer hover:bg-slate-200 rounded-3xl"
+          className="p-2 flex gap-x-2 sm:gap-x-4 overflow-hidden cursor-pointer hover:opacity-85 hover:dark:opacity-10"
         >
           {item.icon}
           <span className="hidden sm:block sm:text-m lg:text-xl">

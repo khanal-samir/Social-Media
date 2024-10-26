@@ -21,7 +21,7 @@ function App() {
             <Outlet />
           </div>
 
-          <div className="hidden sm:block sm:col-span-3 border-2 border-blue-500">
+          <div className="hidden sm:block sm:col-span-3">
             <Sidebar />
           </div>
         </div>
