@@ -55,7 +55,7 @@ const Icons = () => {
           className="p-2 flex gap-x-2 sm:gap-x-4 overflow-hidden cursor-pointer hover:opacity-85 hover:dark:opacity-10"
         >
           {item.icon}
-          <span className="hidden sm:block sm:text-m lg:text-xl">
+          <span className="hidden sm:block  lg:text-lg font-semibold">
             {item.label}
           </span>
         </div>

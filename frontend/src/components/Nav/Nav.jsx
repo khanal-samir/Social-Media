@@ -12,7 +12,8 @@ const Nav = () => {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.theme);
   const [dark, setDark] = useState(theme === "dark");
-  console.log(theme);
+  //console.log(theme);
+
   useEffect(() => {
     // no local storage--default dark
     dispatch(setTheme(dark ? "dark" : "light"));

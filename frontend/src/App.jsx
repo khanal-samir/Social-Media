@@ -12,7 +12,7 @@ function App() {
           <Outlet />
         </div>
       ) : (
-        <div className="min-h-screen grid grid-cols-6 sm:grid-cols-12">
+        <div className="min-h-screen grid grid-cols-6 sm:grid-cols-12 lg:px-16">
           <div className="col-span-1 sm:col-span-2">
             <Nav />
           </div>
