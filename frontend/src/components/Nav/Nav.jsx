@@ -24,8 +24,11 @@ const Nav = () => {
 
   return (
     <div className="w-full h-full max-h-screen px-2 flex flex-col justify-around">
-      <div className="px-2 flex " onClick={() => setDark((prev) => !prev)}>
-        <FaXTwitter className="w-full h-full sm:w-auto sm:h-auto text-3xl cursor-pointer " />
+      <div className="px-2 flex ">
+        <FaXTwitter
+          className="w-full h-full sm:w-auto sm:h-auto text-3xl cursor-pointer "
+          onClick={() => setDark((prev) => !prev)}
+        />
       </div>
 
       <Icons />

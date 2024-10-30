@@ -54,7 +54,7 @@ const Post = () => {
           <Button
             type="button"
             variant="secondary"
-            className=" bg-blue-600 text-white hover:opacity-90 hover:bg-blue-700"
+            className=" bg-blue-600 text-white hover:opacity-90 hover:bg-blue-700 rounded-3xl"
           >
             Post
           </Button>
