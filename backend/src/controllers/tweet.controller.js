@@ -214,7 +214,7 @@ export const getUserTweets = asyncHandler(async (req, res) => {
     limit = 10, // no of tweet in single query
     query = "", // for search
     sortBy = "createdAt",
-    sortType = -1, // assending
+    sortType = -1, // new post
     // if username
   } = req.query;
 
@@ -248,7 +248,7 @@ export const getUserTweets = asyncHandler(async (req, res) => {
       },
       {
         $addFields: {
-          Owner: {
+          owner: {
             $first: "$owner", // $first: is used to get the first element of Owner array
           },
         },
@@ -258,7 +258,7 @@ export const getUserTweets = asyncHandler(async (req, res) => {
           media: 1,
           createdAt: 1,
           content: 1,
-          Owner: 1,
+          owner: 1,
         },
       },
       {
@@ -280,18 +280,74 @@ export const getUserTweets = asyncHandler(async (req, res) => {
 });
 
 //TODO
-// export const getFollowingTweets = asyncHandler(async (req, res) => {
-//   // aggragation only
+export const getFollowingTweets = asyncHandler(async (req, res) => {
+  console.log(req.user._id);
+  const {
+    page = 1, // pageNumber
+    limit = 10, // no of tweet in single query
+    query = "", // for search
+    sortBy = "createdAt",
+    sortType = -1, // new post
+    // if username
+  } = req.query;
 
-//   const followingTweets = await Tweet.aggregate([
-//     {
-//       $match: {
-//         owner: { $ne: req.user?._id },
-//       },
-//     },
-//   ]);
+  const followingDocuments = await Follower.find({
+    follower: req.user?._id,
+  });
+  //console.log(followingDocuments);
 
-//   return res
-//     .status(200)
-//     .json(new ApiResponse(200, followingTweets, "Following tweets fetched"));
-// });
+  const followingTweetsArr = followingDocuments.map((doc) => doc.following);
+  //console.log("follower", following);
+  if (followingTweetsArr.length === 0)
+    throw new ApiError(404, "No followers found");
+
+  const tweets = await Tweet.aggregatePaginate(
+    Tweet.aggregate([
+      { $match: { owner: { $in: followingTweetsArr } } }, // check id from following array
+      {
+        $lookup: {
+          from: "users",
+          localField: "owner",
+          foreignField: "_id",
+          as: "ownerDetails",
+          pipeline: [
+            {
+              $project: {
+                _id: 1,
+                username: 1,
+                avatar: 1,
+                email: 1,
+              },
+            },
+          ],
+        },
+      },
+      {
+        $addFields: {
+          owner: {
+            $first: "$ownerDetails",
+          },
+        },
+      },
+      {
+        $project: {
+          media: 1,
+          createdAt: 1,
+          content: 1,
+          owner: 1,
+        },
+      },
+      {
+        $sort: { [sortBy]: sortType },
+      },
+    ]),
+    {
+      page: parseInt(page),
+      limit: parseInt(limit),
+    }
+  );
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, tweets, "Following tweets fetched"));
+});

@@ -5,7 +5,7 @@ import {
   createTweet,
   deleteTweet,
   getAllTweet,
-  //getFollowingTweets,
+  getFollowingTweets,
   getSingleTweetById,
   getUserTweets,
   updateTweet,
@@ -16,7 +16,7 @@ const router = Router();
 router.use(verifyJWT);
 
 router.route("/all-tweets").get(getAllTweet);
-//router.route("/following-tweets").get(getFollowingTweets);
+router.route("/following-tweets").get(getFollowingTweets);
 router.route("/add-tweet").post(upload.single("media"), createTweet);
 router.route("/edit-tweet/:tweetId").patch(updateTweet);
 router.route("/delete-tweet/:tweetId").post(deleteTweet);

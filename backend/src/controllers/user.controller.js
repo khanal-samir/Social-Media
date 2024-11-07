@@ -500,7 +500,6 @@ export const fetchUserRetweets = asyncHandler(async (req, res) => {
     {
       $project: {
         username: 1,
-
         userRetweets: 1,
       },
     },
