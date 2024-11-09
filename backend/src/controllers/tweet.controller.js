@@ -1,4 +1,5 @@
 // create update delete getSingleTweetById getAllTweet(aggPage) getUserTweets  TODO add followingtweets controller
+// might need to aggregate comment and likes also while getting tweets
 import { Tweet } from "../models/tweet.model.js";
 import { Follower } from "../models/followers.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -67,31 +68,22 @@ export const updateTweet = asyncHandler(async (req, res) => {
   const { tweetId } = req.params;
   if (!content.trim()) throw new ApiError(400, "New content is required");
 
-  if (!mongoose.isValidObjectId(tweetId))
-    throw new ApiError(400, "Invalid tweetId");
+  const tweet = await Tweet.findById(tweetId);
 
-  const updatedTweet = await Tweet.findByIdAndUpdate(
-    tweetId,
-    {
-      $set: {
-        content,
-      },
-    },
-    {
-      new: true,
-    }
-  ).select("content");
+  if (!tweet) throw new ApiError(404, "Tweet not found");
 
-  if (!updateTweet)
-    throw new ApiError(500, "Something went wrong while updating tweet");
+  if (!new mongoose.Types.ObjectId(req.user?._id).equals(tweet.owner))
+    throw new ApiError(401, "Unauthorized request");
 
+  tweet.content = content;
+  await tweet.save({ validateBeforeSave: false });
   return res
     .status(200)
-    .json(new ApiResponse(200, updatedTweet, "Tweet updated successfully"));
+    .json(new ApiResponse(200, tweet.content, "Tweet updated successfully"));
 });
 
 export const deleteTweet = asyncHandler(async (req, res) => {
-  const { tweetId } = req.params || req.body;
+  const { tweetId } = req.params;
 
   if (!mongoose.isValidObjectId(tweetId))
     throw new ApiError(400, "Invalid tweetId");
@@ -105,11 +97,16 @@ export const deleteTweet = asyncHandler(async (req, res) => {
     const fileType = isImage ? "image" : "video";
     await deleteFromCloudinary(tweet.media, fileType);
   }
-  await Tweet.findByIdAndDelete(tweetId);
-
+  const response = await Tweet.deleteOne({
+    _id: new mongoose.Types.ObjectId(tweetId),
+    owner: req.user._id,
+  });
+  //console.log(response);
+  if (!response)
+    throw new ApiError(500, "Something went wrong while deleting tweet");
   return res
     .status(200)
-    .json(new ApiResponse(200, {}, "Tweet deleted Successfully"));
+    .json(new ApiResponse(200, null, "Tweet deleted Successfully"));
 });
 
 export const getSingleTweetById = asyncHandler(async (req, res) => {
@@ -279,7 +276,6 @@ export const getUserTweets = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, tweets, "User data fetched successfully"));
 });
 
-//TODO
 export const getFollowingTweets = asyncHandler(async (req, res) => {
   console.log(req.user._id);
   const {

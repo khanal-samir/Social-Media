@@ -12,7 +12,7 @@ const commentSchema = new Schema(
       ref: "Tweet",
       required: true,
     },
-    ownerId: {
+    owner: {
       // commenting user
       type: Schema.Types.ObjectId,
       ref: "User",
