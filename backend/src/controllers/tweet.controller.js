@@ -115,7 +115,7 @@ export const deleteTweet = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, null, "Tweet deleted Successfully"));
 });
 
-//pipeline
+//TODO add like and comment count pipeline
 export const getSingleTweetById = asyncHandler(async (req, res) => {
   const { tweetId } = req.params;
 

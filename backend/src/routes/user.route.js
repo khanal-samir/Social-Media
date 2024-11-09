@@ -48,7 +48,7 @@ router
   .route("/cover-image")
   .patch(verifyJWT, upload.single("coverImage"), updateCoverImage);
 
-router.route("/user-details/:username").get(verifyJWT, fetchUserDetails);
+router.route("/user-details/:userId").get(verifyJWT, fetchUserDetails);
 // TODO need to check after twitter controller
 // router.route("/user-retweets/:username").get(verifyJWT, fetchUserRetweets);
 // router.route("/add-retweets/:tweetId").post(verifyJWT, addRetweets);

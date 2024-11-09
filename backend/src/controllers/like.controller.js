@@ -41,40 +41,122 @@ export const getLikedUsers = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, likes, "Tweet likes fetched successfully"));
 });
 
-//TODO getUserLikedTweet-- add pipleline from owner
-const getUserLikedTweet = asyncHandler(async (req, res) => {
+//TODO getUserLikedTweet-- add pipleline from tweet and owner
+export const getUserLikedTweet = asyncHandler(async (req, res) => {
   const { userId } = req.params;
 
   const likedTweets = await Like.aggregate([
     {
+      //first find all liked docs
       $match: {
         likedBy: new mongoose.Types.ObjectId(userId),
       },
     },
     {
+      //second lookups for tweets like and comments count ko lagi
       $lookup: {
         from: "tweets",
         localField: "tweetId",
         foreignField: "_id",
-        as: "likedTweets",
+        as: "likedTweet",
         pipeline: [
           {
             $lookup: {
+              //owner
               from: "users",
               localField: "owner",
               foreignField: "_id",
-              as: "tweetUsers",
+              as: "tweetOwner",
+              pipeline: [
+                // pipeline lagayena ni add fields garnu pardena
+                {
+                  $project: {
+                    username: 1,
+                    email: 1,
+                    avatar: 1,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            //comment
+            $lookup: {
+              from: "comments",
+              localField: "_id",
+              foreignField: "tweetId",
+              as: "tweetComments",
+            },
+          },
+          {
+            //likes
+            $lookup: {
+              from: "likes",
+              localField: "_id",
+              foreignField: "tweetId",
+              as: "tweetLikes",
+            },
+          },
+          {
+            $addFields: {
+              owner: {
+                $first: "$tweetOwner",
+              },
+              comments: {
+                $size: "$tweetComments",
+              },
+              likes: {
+                $size: "$tweetLikes",
+              },
+              isLiked: {
+                // for like button color
+                $cond: {
+                  if: { $in: [req.user?._id, "$tweetLikes.likedBy"] },
+                  then: true,
+                  else: false,
+                },
+              },
             },
           },
           {
             $project: {
-              email: 1,
-              username: 1,
-              avatar: 1,
+              // project this from tweet lookup
+              content: 1,
+              media: 1,
+              owner: 1,
+              comments: 1,
+              likes: 1,
+              isLiked: 1,
+              createdAt: 1,
             },
           },
         ],
       },
     },
+    {
+      //third sort naya
+      $sort: { ["createdAt"]: -1 },
+    },
+    {
+      // tweet ko lookup ko doc
+      $addFields: {
+        tweet: { $first: "$likedTweet" },
+      },
+    },
+    {
+      // fifth project tweet matra
+      $project: {
+        tweet: 1,
+      },
+    },
   ]);
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(
+        200,
+        likedTweets,
+        "Liked tweets of user fetched successfully"
+      )
+    );
 });

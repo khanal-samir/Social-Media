@@ -294,13 +294,16 @@ export const updateCoverImage = asyncHandler(async (req, res) => {
 
 // user fetching
 export const fetchUserDetails = asyncHandler(async (req, res) => {
-  const { username } = req.params;
-  if (!username.trim()) throw new ApiError(404, "No user found");
+  const { userId } = req.params;
+  // console.log(userId);
+
+  if (!mongoose.isValidObjectId(userId))
+    throw new ApiError(400, "Invalid userId");
 
   const userDetails = await User.aggregate([
     {
       $match: {
-        username: username.trim().toLowerCase(),
+        _id: new mongoose.Types.ObjectId(userId),
       },
     },
     {
