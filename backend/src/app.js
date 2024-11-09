@@ -20,9 +20,11 @@ import userRouter from "./routes/user.route.js";
 import tweetRouter from "./routes/tweet.route.js";
 import followRouter from "./routes/follower.route.js";
 import commentRouter from "./routes/comment.route.js";
+import likeRouter from "./routes/like.route.js";
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/tweet", tweetRouter);
 app.use("/api/v1/follow", followRouter);
 app.use("/api/v1/comment", commentRouter);
+app.use("/api/v1/like", likeRouter);
 export { app };

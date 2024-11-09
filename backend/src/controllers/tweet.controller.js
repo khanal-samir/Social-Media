@@ -19,6 +19,12 @@ export const createTweet = asyncHandler(async (req, res) => {
   const mediaPath = req.file?.path;
 
   if (mediaPath) {
+    if (
+      !req.file.mimetype.startsWith("video") &&
+      !req.file.mimetype.startsWith("image")
+    )
+      throw new ApiError(400, "Please only include image or videos"); // only upload image or video
+
     const fileType = req.file.mimetype.startsWith("video") ? "video" : "image"; // check MIME type video/mp4 image/png image/jpeg
     const media = await uploadOnCloudinary(mediaPath, fileType);
     if (!media)
