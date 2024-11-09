@@ -42,3 +42,39 @@ export const getLikedUsers = asyncHandler(async (req, res) => {
 });
 
 //TODO getUserLikedTweet-- add pipleline from owner
+const getUserLikedTweet = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+
+  const likedTweets = await Like.aggregate([
+    {
+      $match: {
+        likedBy: new mongoose.Types.ObjectId(userId),
+      },
+    },
+    {
+      $lookup: {
+        from: "tweets",
+        localField: "tweetId",
+        foreignField: "_id",
+        as: "likedTweets",
+        pipeline: [
+          {
+            $lookup: {
+              from: "users",
+              localField: "owner",
+              foreignField: "_id",
+              as: "tweetUsers",
+            },
+          },
+          {
+            $project: {
+              email: 1,
+              username: 1,
+              avatar: 1,
+            },
+          },
+        ],
+      },
+    },
+  ]);
+});

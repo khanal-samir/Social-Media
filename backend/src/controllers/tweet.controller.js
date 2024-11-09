@@ -115,6 +115,7 @@ export const deleteTweet = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, null, "Tweet deleted Successfully"));
 });
 
+//pipeline
 export const getSingleTweetById = asyncHandler(async (req, res) => {
   const { tweetId } = req.params;
 
@@ -212,67 +213,53 @@ export const getAllTweet = asyncHandler(async (req, res) => {
 
 export const getUserTweets = asyncHandler(async (req, res) => {
   const { userId } = req.params || req.body;
-  const {
-    page = 1, // pageNumber
-    limit = 10, // no of tweet in single query
-    query = "", // for search
-    sortBy = "createdAt",
-    sortType = -1, // new post
-    // if username
-  } = req.query;
 
   if (!mongoose.isValidObjectId(userId))
     throw new ApiError(400, "Invalid userId");
 
-  const tweets = await Tweet.aggregatePaginate(
-    Tweet.aggregate([
-      {
-        $match: {
-          owner: new mongoose.Types.ObjectId(userId),
-        },
-      },
-      {
-        $lookup: {
-          from: "users",
-          localField: "owner",
-          foreignField: "_id",
-          as: "owner",
-          pipeline: [
-            {
-              $project: {
-                _id: 1,
-                username: 1,
-                avatar: 1,
-                email: 1,
-              },
-            },
-          ],
-        },
-      },
-      {
-        $addFields: {
-          owner: {
-            $first: "$owner", // $first: is used to get the first element of Owner array
-          },
-        },
-      },
-      {
-        $project: {
-          media: 1,
-          createdAt: 1,
-          content: 1,
-          owner: 1,
-        },
-      },
-      {
-        $sort: { [sortBy]: sortType },
-      },
-    ]),
+  const tweets = await Tweet.aggregate([
     {
-      page: parseInt(page),
-      limit: parseInt(limit),
-    }
-  );
+      $match: {
+        owner: new mongoose.Types.ObjectId(userId),
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner",
+        pipeline: [
+          {
+            $project: {
+              _id: 1,
+              username: 1,
+              avatar: 1,
+              email: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      $addFields: {
+        owner: {
+          $first: "$owner", // $first: is used to get the first element of Owner array
+        },
+      },
+    },
+    {
+      $project: {
+        media: 1,
+        createdAt: 1,
+        content: 1,
+        owner: 1,
+      },
+    },
+    {
+      $sort: { ["createdAt"]: -1 },
+    },
+  ]);
   if (!tweets)
     // maybe return res no tweets
     throw new ApiError(500, "Something went wrong while getting users tweets");
@@ -286,8 +273,7 @@ export const getFollowingTweets = asyncHandler(async (req, res) => {
   console.log(req.user._id);
   const {
     page = 1, // pageNumber
-    limit = 10, // no of tweet in single query
-    query = "", // for search
+    limit = 20, // no of tweet in single query
     sortBy = "createdAt",
     sortType = -1, // new post
     // if username

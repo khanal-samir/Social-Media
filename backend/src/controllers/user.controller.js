@@ -7,6 +7,7 @@ import {
   deleteFromCloudinary,
 } from "../utils/cloudinary.js";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 // auth part
 const generateJwtTokens = async (userId) => {
   try {
@@ -419,99 +420,103 @@ export const getAllUsers = asyncHandler(async (req, res) => {
 });
 
 // add retweets
-export const addRetweets = asyncHandler(async (req, res) => {
-  const { tweetId } = req.params;
-  if (!tweetId) throw new ApiError(404, "Invalid tweetId");
+// export const addRetweets = asyncHandler(async (req, res) => {
+//   const { tweetId } = req.params;
+//   if (!tweetId || !mongoose.isValidObjectId(tweetId))
+//     throw new ApiError(404, "Invalid tweetId");
 
-  const user = await User.findById(req.user?._id);
+//   const user = await User.findById(req.user?._id);
 
-  if (!user) throw new ApiError(400, "Unauthorized request");
+//   if (!user) throw new ApiError(400, "Unauthorized request");
 
-  const alreadyInRetweet = user.retweet.includes(tweetId);
+//   const alreadyInRetweet = user.retweet.includes(tweetId);
 
-  if (alreadyInRetweet)
-    return res
-      .status(200)
-      .json(new ApiResponse(200, user.retweet, "Tweet already retweeted"));
+//   if (alreadyInRetweet)
+//     return res
+//       .status(200)
+//       .json(new ApiResponse(200, user.retweet, "Tweet already retweeted"));
 
-  user.retweet.unshift(tweetId);
-  await user.save({ validateBeforeSave: false });
-  return res.status(200).json(200, user.retweet, "Tweet added to retweet");
-});
+//   user.retweet.unshift(tweetId);
+//   await user.save({ validateBeforeSave: false });
+//   return res
+//     .status(200)
+//     .json(new ApiResponse(200, user.retweet, "Retweet added successfully"));
+// });
 
-// user retweets
-export const fetchUserRetweets = asyncHandler(async (req, res) => {
-  const { username } = req.params || req.body;
+// // user retweets
+// export const fetchUserRetweets = asyncHandler(async (req, res) => {
+//   const { username } = req.params || req.body;
 
-  if (!username.trim()) throw new ApiError(404, "Invalid username");
+//   if (!username.trim()) throw new ApiError(404, "Invalid username");
 
-  const userRetweets = await User.aggregate([
-    {
-      $match: {
-        // match the username
-        username: username.trim().toLowerCase(),
-      },
-    },
-    {
-      $lookup: {
-        // look at tweet schema
-        from: "tweets",
-        localField: "retweet",
-        foreignField: "_id",
-        as: "userRetweets",
-        pipeline: [
-          {
-            $lookup: {
-              // look at user (owner of tweet)
-              from: "users",
-              localField: "owner",
-              foreignField: "_id",
-              as: "ownersOfTweet",
-              pipeline: [
-                {
-                  $project: {
-                    fullName: 1,
-                    username: 1,
-                    avatar: 1,
-                    email: 1,
-                  },
-                },
-              ],
-            },
-          },
-          {
-            $addFields: {
-              owner: {
-                $first: "$ownersOfTweet", // get first element from user (owner tweet)
-              },
-            },
-          },
-          {
-            $project: {
-              owner: 1,
-              content: 1,
-              media: 1,
-              createdAt: 1,
-            },
-          },
-        ],
-      },
-    },
-    {
-      $project: {
-        username: 1,
-        userRetweets: 1,
-      },
-    },
-  ]);
-  //console.log("retweets", userRetweets[0]);
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        userRetweets[0],
-        "user retweets fetched successfully"
-      )
-    );
-});
+//   const userRetweets = await User.aggregate([
+//     {
+//       $match: {
+//         // match the username
+//         username: username.trim().toLowerCase(),
+//       },
+//     },
+//     {
+//       $lookup: {
+//         // look at tweet schema
+//         from: "tweets",
+//         localField: "retweet",
+//         foreignField: "_id",
+//         as: "userRetweets",
+//         pipeline: [
+//           {
+//             $lookup: {
+//               // look at user (owner of tweet)
+//               from: "users",
+//               localField: "owner",
+//               foreignField: "_id",
+//               as: "ownersOfTweet",
+//               pipeline: [
+//                 {
+//                   $project: {
+//                     fullName: 1,
+//                     username: 1,
+//                     avatar: 1,
+//                     email: 1,
+//                   },
+//                 },
+//               ],
+//             },
+//           },
+//           {
+//             $addFields: {
+//               owner: {
+//                 $first: "$ownersOfTweet", // get first element from user (owner tweet)
+//               },
+//             },
+//           },
+//           {
+//             $project: {
+//               owner: 1,
+//               content: 1,
+//               media: 1,
+//               createdAt: 1,
+//             },
+//           },
+//         ],
+//       },
+//     },
+
+//     {
+//       $project: {
+//         username: 1,
+//         userRetweets: 1,
+//       },
+//     },
+//   ]);
+//   //console.log("retweets", userRetweets[0]);
+//   return res
+//     .status(200)
+//     .json(
+//       new ApiResponse(
+//         200,
+//         userRetweets[0],
+//         "user retweets fetched successfully"
+//       )
+//     );
+// });

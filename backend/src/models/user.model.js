@@ -45,13 +45,13 @@ const userSchema = new Schema(
     refreshToken: {
       type: String,
     },
-    retweet: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Tweet",
-        default: [],
-      },
-    ],
+    // retweet: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: "Tweet",
+    //     default: [],
+    //   },
+    // ],
   },
   { timestamps: true }
 );

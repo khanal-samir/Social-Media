@@ -12,8 +12,8 @@ import {
   updateAvatarPic,
   updateCoverImage,
   fetchUserDetails,
-  addRetweets,
-  fetchUserRetweets,
+  // addRetweets,
+  // fetchUserRetweets,
   getAllUsers,
 } from "../controllers/user.controller.js";
 const router = Router();
@@ -50,7 +50,7 @@ router
 
 router.route("/user-details/:username").get(verifyJWT, fetchUserDetails);
 // TODO need to check after twitter controller
-router.route("/user-retweets/:username").get(verifyJWT, fetchUserRetweets);
-router.route("/add-retweets/:tweetId").post(verifyJWT, addRetweets);
+// router.route("/user-retweets/:username").get(verifyJWT, fetchUserRetweets);
+// router.route("/add-retweets/:tweetId").post(verifyJWT, addRetweets);
 
 export default router;
