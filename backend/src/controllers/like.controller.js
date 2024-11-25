@@ -27,11 +27,14 @@ export const toggleTweetLike = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, like, "Tweet liked successfully"));
 });
 
-// info of user on how liked the tweets
+// info of user on who liked the tweets
 
 export const getLikedUsers = asyncHandler(async (req, res) => {
   const { tweetId } = req.params;
-  const likes = await Like.find({ tweetId }).populate("likedBy", "avatar"); // showing only avatar
+  const likes = await Like.find({ tweetId }).populate(
+    "likedBy",
+    "avatar username"
+  ); // showing only avatar
   if (likes.length === 0)
     return res
       .status(200)

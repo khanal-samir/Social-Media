@@ -176,9 +176,41 @@ export const getAllTweet = asyncHandler(async (req, res) => {
       },
     },
     {
+      //comment
+      $lookup: {
+        from: "comments",
+        localField: "_id",
+        foreignField: "tweetId",
+        as: "tweetComments",
+      },
+    },
+    {
+      //likes
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "tweetId",
+        as: "tweetLikes",
+      },
+    },
+    {
       $addFields: {
-        Owner: {
+        owner: {
           $first: "$owner", // $first: is used to get the first element of Owner array
+        },
+        comments: {
+          $size: "$tweetComments",
+        },
+        likes: {
+          $size: "$tweetLikes",
+        },
+        isLiked: {
+          // for like button color
+          $cond: {
+            if: { $in: [req.user?._id, "$tweetLikes.likedBy"] },
+            then: true,
+            else: false,
+          },
         },
       },
     },
@@ -187,7 +219,10 @@ export const getAllTweet = asyncHandler(async (req, res) => {
         media: 1,
         createdAt: 1,
         content: 1,
-        Owner: 1,
+        owner: 1,
+        comments: 1,
+        likes: 1,
+        isLiked: 1,
       },
     },
     {
@@ -242,9 +277,41 @@ export const getUserTweets = asyncHandler(async (req, res) => {
       },
     },
     {
+      //comment
+      $lookup: {
+        from: "comments",
+        localField: "_id",
+        foreignField: "tweetId",
+        as: "tweetComments",
+      },
+    },
+    {
+      //likes
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "tweetId",
+        as: "tweetLikes",
+      },
+    },
+    {
       $addFields: {
         owner: {
           $first: "$owner", // $first: is used to get the first element of Owner array
+        },
+        comments: {
+          $size: "$tweetComments",
+        },
+        likes: {
+          $size: "$tweetLikes",
+        },
+        isLiked: {
+          // for like button color
+          $cond: {
+            if: { $in: [req.user?._id, "$tweetLikes.likedBy"] },
+            then: true,
+            else: false,
+          },
         },
       },
     },
@@ -254,6 +321,9 @@ export const getUserTweets = asyncHandler(async (req, res) => {
         createdAt: 1,
         content: 1,
         owner: 1,
+        comments: 1,
+        likes: 1,
+        isLiked: 1,
       },
     },
     {
@@ -311,9 +381,41 @@ export const getFollowingTweets = asyncHandler(async (req, res) => {
         },
       },
       {
+        //comment
+        $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "tweetId",
+          as: "tweetComments",
+        },
+      },
+      {
+        //likes
+        $lookup: {
+          from: "likes",
+          localField: "_id",
+          foreignField: "tweetId",
+          as: "tweetLikes",
+        },
+      },
+      {
         $addFields: {
           owner: {
             $first: "$ownerDetails",
+          },
+          comments: {
+            $size: "$tweetComments",
+          },
+          likes: {
+            $size: "$tweetLikes",
+          },
+          isLiked: {
+            // for like button color
+            $cond: {
+              if: { $in: [req.user?._id, "$tweetLikes.likedBy"] },
+              then: true,
+              else: false,
+            },
           },
         },
       },
@@ -322,6 +424,9 @@ export const getFollowingTweets = asyncHandler(async (req, res) => {
           media: 1,
           createdAt: 1,
           content: 1,
+          comments: 1,
+          likes: 1,
+          isLiked: 1,
           owner: 1,
         },
       },
@@ -337,5 +442,5 @@ export const getFollowingTweets = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, tweets, "Following tweets fetched"));
+    .json(new ApiResponse(200, tweets.docs, "Following tweets fetched"));
 });
