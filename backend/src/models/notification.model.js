@@ -17,16 +17,11 @@ const notificationSchema = new Schema(
     },
     type: {
       type: String,
-      enum: ["following", "retweet", "like", "comment"],
       required: true,
     },
     tweetId: {
       type: Schema.Types.ObjectId,
       ref: "Tweet",
-    },
-    commentId: {
-      type: Schema.Types.ObjectId,
-      ref: "Comment",
     },
   },
   { timestamps: true }

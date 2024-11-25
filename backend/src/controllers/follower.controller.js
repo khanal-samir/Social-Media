@@ -4,6 +4,7 @@ import { Follower } from "../models/followers.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import mongoose from "mongoose";
+import { createNotification } from "../utils/createNotification.js";
 
 export const toggleFollow = asyncHandler(async (req, res) => {
   const { userId } = req.params;
@@ -29,6 +30,12 @@ export const toggleFollow = asyncHandler(async (req, res) => {
 
     if (!followUser)
       throw new ApiError(500, "Something went wrong while following the user");
+
+    createNotification({
+      recieverId: userId,
+      senderId: req.user._id,
+      type: "follow",
+    });
 
     return res
       .status(201)

@@ -4,7 +4,8 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import mongoose from "mongoose";
 import { Comment } from "../models/comment.model.js";
-
+import { Tweet } from "../models/tweet.model.js";
+import { createNotification } from "../utils/createNotification.js";
 export const createComment = asyncHandler(async (req, res) => {
   const { content } = req.body;
   const { tweetId } = req.params;
@@ -18,6 +19,13 @@ export const createComment = asyncHandler(async (req, res) => {
 
   if (!comment)
     throw new ApiError(500, "Something went wrong while creating comment");
+  const reciever = await Tweet.findById(tweetId);
+  createNotification({
+    recieverId: reciever.owner,
+    tweetId,
+    senderId: req.user._id,
+    type: "comment",
+  });
   return res
     .status(201)
     .json(

@@ -3,6 +3,8 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import mongoose from "mongoose";
 import { Like } from "../models/likes.model.js";
+import { Tweet } from "../models/tweet.model.js";
+import { createNotification } from "../utils/createNotification.js";
 
 export const toggleTweetLike = asyncHandler(async (req, res) => {
   const { tweetId } = req.params;
@@ -20,8 +22,18 @@ export const toggleTweetLike = asyncHandler(async (req, res) => {
     tweetId,
     likedBy: req.user?._id,
   });
+
   if (!like)
     throw new ApiError(500, "something went wrong while liking the tweet");
+
+  const reciever = await Tweet.findById(tweetId);
+  createNotification({
+    recieverId: reciever.owner,
+    tweetId,
+    senderId: req.user._id,
+    type: "like",
+  });
+
   return res
     .status(200)
     .json(new ApiResponse(200, like, "Tweet liked successfully"));
