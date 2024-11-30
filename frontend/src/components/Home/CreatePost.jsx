@@ -1,8 +1,8 @@
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { FaImage } from "react-icons/fa";
 import { BiWorld } from "react-icons/bi";
+import { Image } from "lucide-react";
 const CreatePost = () => {
   return (
     <div className="flex flex-col gap-2 px-2 py-1 border-b-2">
@@ -37,7 +37,7 @@ const CreatePost = () => {
         <div className="flex justify-end gap-4 px-4">
           <div>
             <label htmlFor="image">
-              <FaImage className="w-10 h-10 text-blue-600 cursor-pointer" />
+              <Image className="w-10 h-10 text-blue-500 cursor-pointer" />
             </label>
             <Input id="image" className="hidden" type="file" />
           </div>

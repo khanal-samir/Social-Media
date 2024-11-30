@@ -6,6 +6,7 @@ import { store } from "./store/store.js";
 import App from "./App.jsx";
 import "./index.css";
 import { Following, Foryou, Home, Login, Signup } from "./pages/index.js";
+import { AuthLayout } from "./components/index.js";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: (
+          <AuthLayout>
+            <Home />
+          </AuthLayout>
+        ),
         children: [
           { path: "/", element: <Foryou /> }, //default page
           { path: "/following", element: <Following /> },
@@ -22,11 +27,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/login",
-        element: <Login />,
+        element: (
+          <AuthLayout authentication={false}>
+            <Login />
+          </AuthLayout>
+        ),
       },
       {
         path: "/signup",
-        element: <Signup />,
+        element: (
+          <AuthLayout authentication={false}>
+            <Signup />,
+          </AuthLayout>
+        ),
       },
     ],
   },

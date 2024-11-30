@@ -11,13 +11,32 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useDispatch } from "react-redux";
+import { logout as sliceLogout } from "@/store/authSlice";
+import { AiOutlineLoading } from "react-icons/ai";
+import useLogout from "@/hooks/useLogout";
 const LogoutButton = () => {
+  const { loading, logout } = useLogout();
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    const response = await logout();
+    if (response) {
+      dispatch(sliceLogout());
+    }
+  };
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <div className="flex justify-end">
           <Button variant="outline" className="p-2">
-            Logout <MdLogout />{" "}
+            {loading ? (
+              <AiOutlineLoading className="animate-spin" />
+            ) : (
+              <>
+                Logout <MdLogout />
+              </>
+            )}
           </Button>
         </div>
       </AlertDialogTrigger>
@@ -31,7 +50,7 @@ const LogoutButton = () => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={handleLogout}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

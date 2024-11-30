@@ -1,4 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster";
 // sticky top-0 h-screen to make it fixed
 import { Nav, Sidebar } from "./components";
 function App() {
@@ -26,6 +27,7 @@ function App() {
           </div>
         </div>
       )}
+      <Toaster />
     </div>
   );
 }

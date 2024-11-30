@@ -6,8 +6,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import useLogout from "@/hooks/useLogout";
+import { useDispatch } from "react-redux";
+import { logout as sliceLogout } from "@/store/authSlice";
 function UserInfo() {
+  const { logout } = useLogout();
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    await logout();
+    dispatch(sliceLogout());
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -30,7 +38,9 @@ function UserInfo() {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer">Logout</DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
+          Logout
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -6,12 +6,41 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { AiOutlineLoading } from "react-icons/ai";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FaXTwitter } from "react-icons/fa6";
+import useSignup from "@/hooks/useSignup";
+import { useForm } from "react-hook-form";
+import useGetUser from "@/hooks/useGetUser";
+import useLogin from "@/hooks/useLogin";
+import { useDispatch } from "react-redux";
+import { login as sliceLogin } from "@/store/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const { loading: registerLoading, signup } = useSignup();
+  const { loading: fetchLoading, fetchUser } = useGetUser();
+  const { loading: loginLoading, login } = useLogin();
+  const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleSignIn = async (data) => {
+    // console.log(data);
+    const user = await signup(data);
+    console.log(user);
+    if (user) {
+      const session = await login(data);
+      if (session) {
+        const data = await fetchUser();
+        dispatch(sliceLogin(data));
+        navigate("/");
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black text-white sm:grid sm:grid-cols-12 sm:gap-2 overflow-hidden">
       <FaXTwitter className="w-full m-auto hidden sm:col-span-4 sm:block sm:p-10 sm:text-[24em] " />
@@ -23,7 +52,7 @@ const Signup = () => {
             <TabsTrigger value="optional">Optional</TabsTrigger>
           </TabsList>
           <TabsContent value="required" className="bg-black text-white">
-            <Card className=" bg-black text-white">
+            <Card className="dark">
               <CardHeader>
                 <CardTitle>
                   <FaXTwitter />
@@ -40,19 +69,40 @@ const Signup = () => {
                       id="fullname"
                       placeholder="Enter your Full Name"
                       required
+                      {...register("fullName", {
+                        required: true,
+                      })}
                     />
                   </div>
+
                   <div className="space-y-1">
                     <Label htmlFor="username">Username:</Label>
                     <Input
                       id="username"
                       placeholder="Enter your Username"
                       required
+                      {...register("username", {
+                        required: true,
+                      })}
                     />
                   </div>
+
                   <div className="space-y-1">
                     <Label htmlFor="email">Email:</Label>
-                    <Input id="email" required placeholder="Enter your Email" />
+                    <Input
+                      id="email"
+                      required
+                      placeholder="Enter your Email"
+                      {...register("email", {
+                        required: true,
+                        validate: {
+                          matchPatern: (value) =>
+                            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+                              value,
+                            ) || "Email address must be a valid address",
+                        },
+                      })}
+                    />
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="password">Password:</Label>
@@ -61,6 +111,9 @@ const Signup = () => {
                       type="password"
                       required
                       placeholder="Enter your Email"
+                      {...register("password", {
+                        required: true,
+                      })}
                     />
                   </div>
                   <div className="space-y-1">
@@ -68,8 +121,10 @@ const Signup = () => {
                     <Input
                       id="avatar"
                       type="file"
-                      className="text-black"
                       required
+                      {...register("avatar", {
+                        required: true,
+                      })}
                     />
                   </div>
                 </div>
@@ -78,7 +133,7 @@ const Signup = () => {
           </TabsContent>
 
           <TabsContent value="optional">
-            <Card className="bg-black text-white">
+            <Card className="dark">
               <CardHeader>
                 <CardTitle>
                   <FaXTwitter />
@@ -95,11 +150,12 @@ const Signup = () => {
                       id="bio"
                       placeholder="Enter your Bio"
                       className="block h-48 w-full rounded-md p-2 text-black outline-none"
+                      {...register("bio")}
                     />
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="cover">Cover Image:</Label>
-                    <Input id="cover" type="file" className="text-black" />
+                    <Input id="cover" type="file" {...register("coverImage")} />
                   </div>
                 </div>
               </CardContent>
@@ -110,8 +166,14 @@ const Signup = () => {
           variant="outline"
           type="submit"
           className="sm:min-w-[28rem] max-w-96  bg-black"
+          onClick={handleSubmit(handleSignIn)}
+          disabled={loginLoading || registerLoading || fetchLoading}
         >
-          Submit
+          {registerLoading || loginLoading || fetchLoading ? (
+            <AiOutlineLoading className="animate-spin" />
+          ) : (
+            "Submit"
+          )}
         </Button>
         <p className="font-bold text-xl">
           Already have a Account? <span className="text-blue-700"> Login</span>

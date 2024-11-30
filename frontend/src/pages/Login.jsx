@@ -8,29 +8,57 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { AiOutlineLoading } from "react-icons/ai";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useForm } from "react-hook-form";
+import useLogin from "@/hooks/useLogin";
+import useGetUser from "@/hooks/useGetUser";
+import { useNavigate } from "react-router-dom";
+import { login as sliceLogin } from "@/store/authSlice";
+import { useDispatch } from "react-redux";
 
+const footerLinks = [
+  "About",
+  "Download the X app",
+  "Help Center",
+  "Terms of Service",
+  "Privacy Policy",
+  "Cookie Policy",
+  "Accessibility",
+  "Ads info",
+  "Blog",
+  "Careers",
+  "Brand Resources",
+  "Advertising",
+  "Marketing",
+  "X for Business",
+  "Developers",
+  "Directory",
+  "Settings",
+];
 const Login = () => {
-  const footerLinks = [
-    "About",
-    "Download the X app",
-    "Help Center",
-    "Terms of Service",
-    "Privacy Policy",
-    "Cookie Policy",
-    "Accessibility",
-    "Ads info",
-    "Blog",
-    "Careers",
-    "Brand Resources",
-    "Advertising",
-    "Marketing",
-    "X for Business",
-    "Developers",
-    "Directory",
-    "Settings",
-  ];
+  const { register, handleSubmit } = useForm();
+  const { loading: loginLoading, login } = useLogin();
+  const { loading: fetchLoading, fetchUser } = useGetUser();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogin = async (data) => {
+    // console.log(data);
+
+    const session = await login({
+      username: data.val,
+      email: data.val,
+      ...data,
+    });
+    if (session) {
+      const data = await fetchUser();
+      dispatch(sliceLogin(data));
+      navigate("/");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
       <div className="flex flex-col gap-4 sm:flex-row sm:justify-around p-6">
@@ -90,6 +118,9 @@ const Login = () => {
                       <Input
                         className="bg-black"
                         placeholder="Enter your Email or Username"
+                        {...register("val", {
+                          required: true,
+                        })}
                       />
                     </Label>
                   </div>
@@ -99,14 +130,24 @@ const Login = () => {
                       <Input
                         className="bg-black"
                         placeholder="Enter your Password"
+                        type="password"
+                        {...register("password", {
+                          required: true,
+                        })}
                       />
                     </Label>
                   </div>
                   <Button
                     type="submit"
                     className="w-full rounded-3xl mx-auto  bg-white text-black"
+                    onClick={handleSubmit(handleLogin)}
+                    disabled={loginLoading || fetchLoading}
                   >
-                    Login
+                    {loginLoading || fetchLoading ? (
+                      <AiOutlineLoading className="animate-spin" />
+                    ) : (
+                      "Login"
+                    )}
                   </Button>
                   <p className="text-center  text-muted-foreground">
                     Don{`'`}t have an account?{" "}
