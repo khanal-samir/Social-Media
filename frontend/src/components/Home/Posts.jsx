@@ -1,14 +1,16 @@
+import { useSelector } from "react-redux";
 import SinglePost from "./SinglePost";
 
 const Posts = () => {
+  const tweets = useSelector((state) => state.tweet.tweets);
+  console.log(tweets);
+  if (!tweets) return;
   //loop posts
   return (
     <div>
-      <SinglePost />
-      <SinglePost />
-      <SinglePost />
-      <SinglePost />
-      <SinglePost />
+      {tweets?.map((tweet) => (
+        <SinglePost key={tweet?._id} tweet={tweet} />
+      ))}
     </div>
   );
 };

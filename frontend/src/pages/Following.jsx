@@ -1,5 +1,7 @@
+import { Posts } from "@/components";
+
 const Following = () => {
-  return <div>Following</div>;
+  return <Posts />;
 };
 
 export default Following;

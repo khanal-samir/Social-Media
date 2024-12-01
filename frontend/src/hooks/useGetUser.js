@@ -8,9 +8,7 @@ const useGetUser = () => {
     try {
       setLoading(true);
       const { data } = await axios.get("/api/v1/user/current-user");
-      console.log(data);
-      console.log(data.data);
-      return data.data;
+      return data.data.user;
     } catch (error) {
       console.log(error.message);
     } finally {

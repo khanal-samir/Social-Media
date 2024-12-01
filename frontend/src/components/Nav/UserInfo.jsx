@@ -8,10 +8,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useLogout from "@/hooks/useLogout";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { logout as sliceLogout } from "@/store/authSlice";
+
 function UserInfo() {
   const { logout } = useLogout();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.userInfo);
+  if (!user) return; // during querying
+
   const handleLogout = async () => {
     await logout();
     dispatch(sliceLogout());
@@ -24,13 +29,13 @@ function UserInfo() {
           {/* TODO add user avatar here */}
 
           <img
-            src="https://pbs.twimg.com/profile_images/1802974703453347840/ToZ2m6K1_400x400.jpg"
+            src={user?.avatar}
             alt="avatar"
             className="w-full h-full sm:w-10 sm:h-10 rounded-full"
           />
-          <div className="hidden sm:block">
-            <p className="font-semibold">FullName</p>
-            <p className=" text-xs text-muted-foreground">username</p>
+          <div className="hidden sm:flex flex-col">
+            <p className="font-semibold">{user?.username}</p>
+            <p className=" text-xs text-muted-foreground">{user?.email}</p>
           </div>
         </div>
       </DropdownMenuTrigger>

@@ -3,7 +3,9 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { BiWorld } from "react-icons/bi";
 import { Image } from "lucide-react";
+import { useSelector } from "react-redux";
 const CreatePost = () => {
+  const user = useSelector((state) => state.auth.userInfo);
   return (
     <div className="flex flex-col gap-2 px-2 py-1 border-b-2">
       <Label htmlFor="input">
@@ -16,7 +18,7 @@ const CreatePost = () => {
         {/* TODO add user avatar here */}
         <Label className="flex gap-5">
           <img
-            src="https://pbs.twimg.com/profile_images/1802974703453347840/ToZ2m6K1_400x400.jpg"
+            src={user?.avatar}
             alt="avatar"
             className="w-16 h-16 rounded-full"
           />

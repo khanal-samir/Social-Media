@@ -10,8 +10,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FaFeather, FaImage } from "react-icons/fa6";
+import { useSelector } from "react-redux";
 
 const Post = () => {
+  const user = useSelector((state) => state.auth.userInfo);
+  // console.log(user);
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -33,7 +37,7 @@ const Post = () => {
           {/* TODO add user avatar here */}
           <Label className="flex gap-5">
             <img
-              src="https://pbs.twimg.com/profile_images/1802974703453347840/ToZ2m6K1_400x400.jpg"
+              src={user?.avatar}
               alt="avatar"
               className="w-16 h-16 rounded-full"
             />
