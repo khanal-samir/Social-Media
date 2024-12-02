@@ -7,7 +7,6 @@ const useSignup = () => {
 
   const signup = async (formData) => {
     try {
-      //console.log(formData);
       setLoading(true);
       const correctVal = verifyInput(formData);
       if (!correctVal) {
@@ -36,10 +35,10 @@ const useSignup = () => {
         "/api/v1/user/register",
         formDataPayload,
       );
-      //console.log(data);
+
       return data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       let errorMessage = error.response.data; // html
 
       // Use regex to extract the error text

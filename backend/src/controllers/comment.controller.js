@@ -59,7 +59,6 @@ export const deleteComment = asyncHandler(async (req, res) => {
     owner: req.user?._id,
     _id: new mongoose.Types.ObjectId(commentId),
   });
-  //console.log(response);
   if (!response)
     throw new ApiError(500, "Something went wrong while deleting comment");
   return res

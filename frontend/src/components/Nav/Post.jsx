@@ -14,7 +14,6 @@ import { useSelector } from "react-redux";
 
 const Post = () => {
   const user = useSelector((state) => state.auth.userInfo);
-  // console.log(user);
 
   return (
     <Dialog>

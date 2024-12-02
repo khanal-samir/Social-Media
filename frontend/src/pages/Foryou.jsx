@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Posts } from "@/components";
 import useGetAllTweets from "@/hooks/useGetAllTweets";
 import { useEffect } from "react";
@@ -15,11 +16,11 @@ const Foryou = () => {
       }
     };
     fetchTweets();
-  }, []);
+  }, [dispatch]);
 
   if (loading)
     return (
-      <div className="h-screen flex justify-center items-center text-5xl  border-2">
+      <div className="h-screen flex justify-center items-center text-5xl  border-x-2">
         <FaXTwitter className="animate-bounce" />
       </div>
     );

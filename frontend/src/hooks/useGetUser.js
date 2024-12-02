@@ -10,7 +10,7 @@ const useGetUser = () => {
       const { data } = await axios.get("/api/v1/user/current-user");
       return data.data.user;
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
     } finally {
       setLoading(false);
     }

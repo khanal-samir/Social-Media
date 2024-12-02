@@ -15,7 +15,7 @@ const useLogout = () => {
       });
       return true;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       let errorMessage = error.response.data; // html
 
       // Use regex to extract the error text

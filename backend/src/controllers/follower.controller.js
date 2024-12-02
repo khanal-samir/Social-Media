@@ -11,9 +11,6 @@ export const toggleFollow = asyncHandler(async (req, res) => {
 
   if (!mongoose.isValidObjectId(userId))
     throw new ApiError(400, "Invalid userId");
-  // console.log(new mongoose.Types.ObjectId(userId));
-  // console.log(req.user._id);
-
   if (new mongoose.Types.ObjectId(userId).equals(req.user?._id))
     throw new ApiError(400, "Cannot follow own account");
   // check if the logged in user is a follower
@@ -47,7 +44,6 @@ export const toggleFollow = asyncHandler(async (req, res) => {
     follower: req.user?._id,
     following: userId,
   });
-  //console.log(deleteFollowing);
 
   return res
     .status(200)
@@ -92,7 +88,6 @@ export const getUserFollowing = asyncHandler(async (req, res) => {
     return res
       .status(200)
       .json(new ApiResponse(200, [], "User is not following to other users"));
-  //console.log("foolwoing", followers);
 
   return res
     .status(200)

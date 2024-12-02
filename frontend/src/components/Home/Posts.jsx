@@ -3,7 +3,6 @@ import SinglePost from "./SinglePost";
 
 const Posts = () => {
   const tweets = useSelector((state) => state.tweet.tweets);
-  console.log(tweets);
   if (!tweets) return;
   //loop posts
   return (

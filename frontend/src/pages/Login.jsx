@@ -45,8 +45,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (data) => {
-    // console.log(data);
-
     const session = await login({
       username: data.val,
       email: data.val,

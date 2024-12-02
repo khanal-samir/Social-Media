@@ -107,7 +107,7 @@ export const deleteTweet = asyncHandler(async (req, res) => {
     _id: new mongoose.Types.ObjectId(tweetId),
     owner: req.user._id,
   });
-  //console.log(response);
+
   if (!response)
     throw new ApiError(500, "Something went wrong while deleting tweet");
   return res
@@ -340,7 +340,6 @@ export const getUserTweets = asyncHandler(async (req, res) => {
 });
 
 export const getFollowingTweets = asyncHandler(async (req, res) => {
-  console.log(req.user._id);
   const {
     page = 1, // pageNumber
     limit = 20, // no of tweet in single query
@@ -352,10 +351,9 @@ export const getFollowingTweets = asyncHandler(async (req, res) => {
   const followingDocuments = await Follower.find({
     follower: req.user?._id,
   });
-  //console.log(followingDocuments);
 
   const followingTweetsArr = followingDocuments.map((doc) => doc.following);
-  //console.log("follower", following);
+
   if (followingTweetsArr.length === 0)
     throw new ApiError(404, "No followers found");
 

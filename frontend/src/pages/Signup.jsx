@@ -28,9 +28,8 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const handleSignIn = async (data) => {
-    // console.log(data);
     const user = await signup(data);
-    console.log(user);
+
     if (user) {
       const session = await login(data);
       if (session) {

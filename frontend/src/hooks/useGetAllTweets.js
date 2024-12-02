@@ -12,7 +12,7 @@ const useGetAllTweets = () => {
       const { data } = await axios.get(`/api/v1/tweet/all-tweets`);
       return data.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return false;
     } finally {
       setLoading(false);

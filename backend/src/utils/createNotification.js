@@ -14,7 +14,6 @@ export const createNotification = async ({
       type,
       tweetId,
     });
-    // console.log("Noti", notification);
   } catch (error) {
     console.log(error.message);
   }

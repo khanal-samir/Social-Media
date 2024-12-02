@@ -10,7 +10,6 @@ const SearchBar = () => {
 
   const handleClick = () => {
     if (!query.trim()) return;
-    console.log(query);
     setQuery("");
   };
 
