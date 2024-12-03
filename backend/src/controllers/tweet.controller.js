@@ -85,7 +85,7 @@ export const updateTweet = asyncHandler(async (req, res) => {
   await tweet.save({ validateBeforeSave: false });
   return res
     .status(200)
-    .json(new ApiResponse(200, tweet.content, "Tweet updated successfully"));
+    .json(new ApiResponse(200, tweet, "Tweet updated successfully"));
 });
 
 export const deleteTweet = asyncHandler(async (req, res) => {

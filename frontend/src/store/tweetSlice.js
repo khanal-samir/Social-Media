@@ -11,7 +11,7 @@ const tweetSlice = createSlice({
       state.tweets = action.payload;
     },
     addTweet: (state, action) => {
-      state.tweets = state.tweets.unshift(action.payload);
+      state.tweets.unshift(action.payload);
     },
     rmTweet: (state, action) => {
       state.tweets = state.tweets.filter(
@@ -20,7 +20,9 @@ const tweetSlice = createSlice({
     },
     updateTweet: (state, action) => {
       state.tweets = state.tweets.map((tweet) =>
-        tweet._id === action.payload._id ? action.payload : tweet,
+        tweet._id === action.payload._id
+          ? { ...tweet, content: action.payload.content }
+          : tweet,
       );
     },
   },
