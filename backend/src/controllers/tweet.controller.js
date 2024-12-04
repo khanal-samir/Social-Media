@@ -39,15 +39,96 @@ export const createTweet = asyncHandler(async (req, res) => {
     if (!tweet)
       throw new ApiError(500, "Something went wrong while creating tweet");
 
-    const newTweet = await Tweet.findById(tweet?._id).populate(
-      "owner",
-      "email avatar fullName"
-    );
+    const newTweet = await Tweet.aggregate([
+      {
+        $match: {
+          _id: new mongoose.Types.ObjectId(tweet._id),
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "owner",
+          foreignField: "_id",
+          as: "owner",
+          pipeline: [
+            {
+              $project: {
+                _id: 1,
+                username: 1,
+                avatar: 1,
+                email: 1,
+              },
+            },
+          ],
+        },
+      },
+      {
+        //comment
+        $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "tweetId",
+          as: "tweetComments",
+        },
+      },
+      {
+        //likes
+        $lookup: {
+          from: "likes",
+          localField: "_id",
+          foreignField: "tweetId",
+          as: "tweetLikes",
+        },
+      },
+      {
+        $addFields: {
+          owner: {
+            $first: "$owner", // $first: is used to get the first element of Owner array
+          },
+          comments: {
+            $size: "$tweetComments",
+          },
+          likes: {
+            $size: "$tweetLikes",
+          },
+          isLiked: {
+            // for like button color
+            $cond: {
+              if: { $in: [req.user?._id, "$tweetLikes.likedBy"] },
+              then: true,
+              else: false,
+            },
+          },
+        },
+      },
+      {
+        $project: {
+          media: 1,
+          createdAt: 1,
+          content: 1,
+          owner: 1,
+          comments: 1,
+          likes: 1,
+          isLiked: 1,
+        },
+      },
+      {
+        $sort: { ["createdAt"]: -1 },
+      },
+    ]);
+    if (!newTweet)
+      // maybe return res no tweets
+      throw new ApiError(500, "Something went wrong while getting users tweet");
 
     return res
       .status(201)
       .json(
-        new ApiResponse(201, newTweet, "tweet with media created successfully")
+        new ApiResponse(
+          201,
+          newTweet[0],
+          "tweet with media created successfully"
+        )
       );
   }
   const tweet = await Tweet.create({
@@ -142,7 +223,11 @@ export const createTweet = asyncHandler(async (req, res) => {
   return res
     .status(201)
     .json(
-      new ApiResponse(201, newTweet, "tweet without media created successfully")
+      new ApiResponse(
+        201,
+        newTweet[0],
+        "tweet without media created successfully"
+      )
     );
 });
 

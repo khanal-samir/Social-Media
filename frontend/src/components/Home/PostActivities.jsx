@@ -8,6 +8,8 @@ const PostActivities = ({ tweet }) => {
     likes: tweet.likes || 0,
   });
   const { toggleLike } = useToggleLike();
+
+  const handleLike = async () => {};
   return (
     <div className=" sm:text-xl flex justify-around text-muted-foreground">
       <div className=" flex justify-center items-center gap-2 sm:gap-4   cursor-pointer">
