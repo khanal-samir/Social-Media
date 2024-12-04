@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Input } from "../ui/input";
 const SinglePost = ({ tweet }) => {
   const user = useSelector((state) => state.auth.userInfo);
-  const isUserTweet = user._id === tweet.owner._id;
+  const isUserTweet = user?._id === tweet?.owner._id;
   const [isUpdate, setIsUpdate] = useState(false);
   const [content, setContent] = useState(tweet.content);
   if (!tweet) return <></>;

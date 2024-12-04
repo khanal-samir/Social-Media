@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import useGetUser from "@/hooks/useGetUser";
 import { useEffect, useState } from "react";
 import { FaXTwitter } from "react-icons/fa6";
@@ -18,7 +19,6 @@ const AuthLayout = ({ children, authentication = true }) => {
         setLoading(false); // User already authenticated
         return;
       }
-
       try {
         const data = await fetchUser();
         if (data) {
@@ -32,7 +32,7 @@ const AuthLayout = ({ children, authentication = true }) => {
     };
 
     loadUser();
-  }, [authStatus, fetchUser, dispatch]);
+  }, [dispatch, authStatus]);
 
   useEffect(() => {
     if (!loading) {

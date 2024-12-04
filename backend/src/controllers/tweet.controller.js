@@ -57,10 +57,87 @@ export const createTweet = asyncHandler(async (req, res) => {
   if (!tweet)
     throw new ApiError(500, "Something went wrong while creating tweet");
 
-  const newTweet = await Tweet.findById(tweet?._id).populate(
-    "owner",
-    "email avatar fullName"
-  );
+  const newTweet = await Tweet.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(tweet._id),
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner",
+        pipeline: [
+          {
+            $project: {
+              _id: 1,
+              username: 1,
+              avatar: 1,
+              email: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      //comment
+      $lookup: {
+        from: "comments",
+        localField: "_id",
+        foreignField: "tweetId",
+        as: "tweetComments",
+      },
+    },
+    {
+      //likes
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "tweetId",
+        as: "tweetLikes",
+      },
+    },
+    {
+      $addFields: {
+        owner: {
+          $first: "$owner", // $first: is used to get the first element of Owner array
+        },
+        comments: {
+          $size: "$tweetComments",
+        },
+        likes: {
+          $size: "$tweetLikes",
+        },
+        isLiked: {
+          // for like button color
+          $cond: {
+            if: { $in: [req.user?._id, "$tweetLikes.likedBy"] },
+            then: true,
+            else: false,
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        media: 1,
+        createdAt: 1,
+        content: 1,
+        owner: 1,
+        comments: 1,
+        likes: 1,
+        isLiked: 1,
+      },
+    },
+    {
+      $sort: { ["createdAt"]: -1 },
+    },
+  ]);
+  if (!newTweet)
+    // maybe return res no tweets
+    throw new ApiError(500, "Something went wrong while getting users tweet");
 
   return res
     .status(201)
@@ -122,13 +199,87 @@ export const getSingleTweetById = asyncHandler(async (req, res) => {
   if (!mongoose.isValidObjectId(tweetId))
     throw new ApiError(400, "Invalid tweetId");
 
-  const tweet = await Tweet.findById(tweetId).populate(
-    "owner",
-    "email username avatar"
-  );
-
+  const tweet = await Tweet.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(tweetId),
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "owner",
+        foreignField: "_id",
+        as: "owner",
+        pipeline: [
+          {
+            $project: {
+              _id: 1,
+              username: 1,
+              avatar: 1,
+              email: 1,
+            },
+          },
+        ],
+      },
+    },
+    {
+      //comment
+      $lookup: {
+        from: "comments",
+        localField: "_id",
+        foreignField: "tweetId",
+        as: "tweetComments",
+      },
+    },
+    {
+      //likes
+      $lookup: {
+        from: "likes",
+        localField: "_id",
+        foreignField: "tweetId",
+        as: "tweetLikes",
+      },
+    },
+    {
+      $addFields: {
+        owner: {
+          $first: "$owner", // $first: is used to get the first element of Owner array
+        },
+        comments: {
+          $size: "$tweetComments",
+        },
+        likes: {
+          $size: "$tweetLikes",
+        },
+        isLiked: {
+          // for like button color
+          $cond: {
+            if: { $in: [req.user?._id, "$tweetLikes.likedBy"] },
+            then: true,
+            else: false,
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        media: 1,
+        createdAt: 1,
+        content: 1,
+        owner: 1,
+        comments: 1,
+        likes: 1,
+        isLiked: 1,
+      },
+    },
+    {
+      $sort: { ["createdAt"]: -1 },
+    },
+  ]);
   if (!tweet)
-    throw new ApiError(500, "Something went wrong while fetching the tweet");
+    // maybe return res no tweets
+    throw new ApiError(500, "Something went wrong while getting users tweet");
 
   return res
     .status(200)
