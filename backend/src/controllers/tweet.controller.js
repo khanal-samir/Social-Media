@@ -79,6 +79,13 @@ export const createTweet = asyncHandler(async (req, res) => {
           localField: "_id",
           foreignField: "tweetId",
           as: "tweetLikes",
+          pipeline: [
+            {
+              $project: {
+                likedBy: 1,
+              },
+            },
+          ],
         },
       },
       {
@@ -111,6 +118,7 @@ export const createTweet = asyncHandler(async (req, res) => {
           comments: 1,
           likes: 1,
           isLiked: 1,
+          tweetLikes: 1,
         },
       },
       {
@@ -178,6 +186,13 @@ export const createTweet = asyncHandler(async (req, res) => {
         localField: "_id",
         foreignField: "tweetId",
         as: "tweetLikes",
+        pipeline: [
+          {
+            $project: {
+              likedBy: 1,
+            },
+          },
+        ],
       },
     },
     {
@@ -210,6 +225,7 @@ export const createTweet = asyncHandler(async (req, res) => {
         comments: 1,
         likes: 1,
         isLiked: 1,
+        tweetLikes: 1,
       },
     },
     {
@@ -324,6 +340,13 @@ export const getSingleTweetById = asyncHandler(async (req, res) => {
         localField: "_id",
         foreignField: "tweetId",
         as: "tweetLikes",
+        pipeline: [
+          {
+            $project: {
+              likedBy: 1,
+            },
+          },
+        ],
       },
     },
     {
@@ -356,6 +379,7 @@ export const getSingleTweetById = asyncHandler(async (req, res) => {
         comments: 1,
         likes: 1,
         isLiked: 1,
+        tweetLikes: 1,
       },
     },
     {
@@ -427,6 +451,13 @@ export const getAllTweet = asyncHandler(async (req, res) => {
         localField: "_id",
         foreignField: "tweetId",
         as: "tweetLikes",
+        pipeline: [
+          {
+            $project: {
+              likedBy: 1,
+            },
+          },
+        ],
       },
     },
     {
@@ -459,6 +490,7 @@ export const getAllTweet = asyncHandler(async (req, res) => {
         comments: 1,
         likes: 1,
         isLiked: 1,
+        tweetLikes: 1,
       },
     },
     {
@@ -528,6 +560,13 @@ export const getUserTweets = asyncHandler(async (req, res) => {
         localField: "_id",
         foreignField: "tweetId",
         as: "tweetLikes",
+        pipeline: [
+          {
+            $project: {
+              likedBy: 1,
+            },
+          },
+        ],
       },
     },
     {
@@ -560,6 +599,7 @@ export const getUserTweets = asyncHandler(async (req, res) => {
         comments: 1,
         likes: 1,
         isLiked: 1,
+        tweetLikes: 1,
       },
     },
     {
@@ -630,6 +670,13 @@ export const getFollowingTweets = asyncHandler(async (req, res) => {
           localField: "_id",
           foreignField: "tweetId",
           as: "tweetLikes",
+          pipeline: [
+            {
+              $project: {
+                likedBy: 1,
+              },
+            },
+          ],
         },
       },
       {
@@ -662,6 +709,7 @@ export const getFollowingTweets = asyncHandler(async (req, res) => {
           likes: 1,
           isLiked: 1,
           owner: 1,
+          tweetLikes: 1,
         },
       },
       {
