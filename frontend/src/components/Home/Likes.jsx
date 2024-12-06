@@ -4,11 +4,11 @@ import useToggleLike from "@/hooks/useToggleLike";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 const Likes = ({ tweet }) => {
-  const { loading, getLikedUsers } = UseGetLikedUser();
+  const { getLikedUsers } = UseGetLikedUser();
   const { toggleLike } = useToggleLike();
   const user = useSelector((state) => state.auth.userInfo);
   const [isLiked, setIsLiked] = useState(
-    tweet.tweetLikes.some((like) => like.likedBy === user._id),
+    tweet?.tweetLikes.some((like) => like.likedBy === user?._id),
   );
 
   const [like, setLike] = useState(tweet.likes);
@@ -25,8 +25,7 @@ const Likes = ({ tweet }) => {
 
   const [likedUsers, setLikedUsers] = useState([]);
   const handleGetLikedUsers = async () => {
-    const data = await getLikedUsers({ tweetID: tweet._id });
-    console.log(data);
+    const data = await getLikedUsers({ tweetID: tweet?._id });
     if (data) {
       setLikedUsers(data);
     }

@@ -1,11 +1,4 @@
-import {
-  FaBell,
-  FaEnvelope,
-  FaHome,
-  FaSearch,
-  FaUser,
-  FaImage,
-} from "react-icons/fa";
+import { FaBell, FaHome, FaSearch, FaUser } from "react-icons/fa";
 import { IoSettings } from "react-icons/io5";
 const Icons = () => {
   // w-full h-full works on inner eleement or icons better
@@ -16,10 +9,6 @@ const Icons = () => {
     },
 
     {
-      label: "Stories",
-      icon: <FaImage className=" w-full h-full sm:w-auto sm:h-auto text-3xl" />,
-    },
-    {
       label: "Inbox",
       icon: <FaBell className=" w-full h-full sm:w-auto sm:h-auto text-3xl" />,
     },
@@ -29,12 +18,7 @@ const Icons = () => {
         <FaSearch className=" w-full h-full sm:w-auto sm:h-auto text-3xl" />
       ),
     },
-    {
-      label: "Messages",
-      icon: (
-        <FaEnvelope className=" w-full h-full sm:w-auto sm:h-auto text-3xl" />
-      ),
-    },
+
     {
       label: "Profile",
       icon: <FaUser className=" w-full h-full sm:w-auto sm:h-auto text-3xl" />,
