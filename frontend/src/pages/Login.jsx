@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Link } from "react-router-dom";
 import { AiOutlineLoading } from "react-icons/ai";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -73,9 +74,11 @@ const Login = () => {
               Join today.
             </h2>
 
-            <Button className="w-72 h-12 mt-5 bg-blue-500 font-bold rounded-3xl">
-              Create Account
-            </Button>
+            <Link to={`/signup`}>
+              <Button className="w-72 h-12 mt-5 bg-blue-500 font-bold rounded-3xl">
+                Create Account
+              </Button>
+            </Link>
             <p className="w-72 mt-3 text-xs text-muted-foreground">
               By signing up, you agree to the{" "}
               <span className="text-blue-700">Terms of Service </span>and

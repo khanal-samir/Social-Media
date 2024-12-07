@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 import { AiOutlineLoading } from "react-icons/ai";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -175,7 +176,10 @@ const Signup = () => {
           )}
         </Button>
         <p className="font-bold text-xl">
-          Already have a Account? <span className="text-blue-700"> Login</span>
+          Already have a Account?
+          <Link to={`/login`}>
+            <span className="text-blue-700"> Login</span>
+          </Link>
         </p>
       </form>
     </div>
