@@ -22,32 +22,47 @@ function UserInfo() {
     dispatch(sliceLogout());
   };
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        {" "}
-        <div className="p-2 flex gap-4 hover:opacity-85 hover:dark:opacity-10 cursor-pointer">
-          {/* TODO add user avatar here */}
+    <div className="flex justify-between items-center px-2">
+      <div className="w-fit p-2 hidden lg:flex  gap-4 ">
+        {/* TODO add user avatar here */}
 
-          <img
-            src={user?.avatar}
-            alt="avatar"
-            className="w-full h-full sm:w-10 sm:h-10 rounded-full"
-          />
-          <div className="hidden sm:flex flex-col">
-            <p className="font-semibold">{user?.username}</p>
-            <p className=" text-xs text-muted-foreground">{user?.email}</p>
-          </div>
+        <img
+          src={user?.avatar}
+          alt="avatar"
+          className="w-full h-full sm:w-10 sm:h-10 rounded-full"
+        />
+        <div className="hidden lg:flex flex-col">
+          <p className="font-semibold">{user?.username}</p>
+          <p className=" text-xs text-muted-foreground">{user?.email}</p>
         </div>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="p-2 font-semibold ">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">Profile</DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
-          Logout
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </div>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          {" "}
+          <div>
+            <h1 className="text-3xl hidden lg:block font-bold hover:opacity-85 hover:dark:opacity-10 cursor-pointer">
+              ...
+            </h1>
+            <img
+              src={user?.avatar}
+              alt="avatar"
+              className="mx-auto md:w-1/2 rounded-full lg:hidden"
+            />
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="p-2 font-semibold ">
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem className="cursor-pointer">
+            Profile
+          </DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
+            Logout
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 }
 

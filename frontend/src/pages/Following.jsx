@@ -32,7 +32,10 @@ const Following = () => {
     <>
       {!isFollowing ? (
         <div className="h-screen border-x-2 py-8 text-center text-muted-foreground font-light text-2xl">
-          Please follow other user to get following Tweets
+          <p>Welcome to the Following page!!</p>
+          <p>
+            Follow other users to get there specified feeds on your timeline.
+          </p>
         </div>
       ) : (
         <Posts />

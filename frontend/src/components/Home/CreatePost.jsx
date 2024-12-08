@@ -9,7 +9,7 @@ import useCreateTweet from "@/hooks/useCreateTweet";
 import { addTweet } from "@/store/tweetSlice";
 import { AiOutlineLoading } from "react-icons/ai";
 
-const CreatePost = () => {
+const CreatePost = ({ isImage = true }) => {
   const { register, handleSubmit, reset } = useForm();
   const user = useSelector((state) => state.auth.userInfo);
   const { loading, createTweet } = useCreateTweet();
@@ -59,18 +59,20 @@ const CreatePost = () => {
         </div>
 
         <div className="flex justify-end gap-4 px-4">
-          <div>
-            <label htmlFor="image">
-              <Image className="w-10 h-10 text-blue-500 cursor-pointer" />
-            </label>
-            <Input
-              id="image"
-              className="hidden"
-              type="file"
-              disabled={loading}
-              {...register("media")}
-            />
-          </div>
+          {isImage && (
+            <div>
+              <label htmlFor="image">
+                <Image className="w-10 h-10 text-blue-500 cursor-pointer" />
+              </label>
+              <Input
+                id="image"
+                className="hidden"
+                type="file"
+                disabled={loading}
+                {...register("media")}
+              />
+            </div>
+          )}
           <Button
             type="button"
             variant="secondary"

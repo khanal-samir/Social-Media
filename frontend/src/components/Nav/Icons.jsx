@@ -36,7 +36,7 @@ const Icons = () => {
       {navItems.map((item, index) => (
         <div
           key={index}
-          className="p-2 flex gap-x-2 sm:gap-x-4 overflow-hidden cursor-pointer hover:opacity-85 hover:dark:opacity-10"
+          className="w-fit p-2 flex gap-x-2 sm:gap-x-4 overflow-hidden cursor-pointer hover:text-blue-600 hover:bg-transparent rounded-md"
         >
           {item.icon}
           <span className="hidden sm:block  lg:text-lg font-semibold">

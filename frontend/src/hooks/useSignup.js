@@ -16,7 +16,6 @@ const useSignup = () => {
         });
         return;
       }
-
       const formDataPayload = new FormData();
       formDataPayload.append("fullName", formData.fullName);
       formDataPayload.append("username", formData.username);
@@ -60,7 +59,6 @@ const useSignup = () => {
 
 export default useSignup;
 const verifyInput = (formData) => {
-  // add toast
   if (
     [
       formData.fullName,

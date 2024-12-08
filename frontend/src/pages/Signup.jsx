@@ -24,10 +24,10 @@ const Signup = () => {
   const { loading: registerLoading, signup } = useSignup();
   const { loading: fetchLoading, fetchUser } = useGetUser();
   const { loading: loginLoading, login } = useLogin();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const avatar = watch("avatar");
   const handleSignIn = async (data) => {
     const user = await signup(data);
 
@@ -110,21 +110,27 @@ const Signup = () => {
                       id="password"
                       type="password"
                       required
-                      placeholder="Enter your Email"
+                      placeholder="Enter your Password"
                       {...register("password", {
                         required: true,
                       })}
                     />
                   </div>
                   <div className="space-y-1">
-                    <Label htmlFor="avatar">Avatar:</Label>
+                    <Label htmlFor="avatar" className="flex gap-x-2">
+                      Avatar:
+                      {!avatar?.length && (
+                        <span className="text-red-600 text-xs">
+                          Avatar is Required!
+                        </span>
+                      )}
+                    </Label>
+
                     <Input
                       id="avatar"
                       type="file"
                       required
-                      {...register("avatar", {
-                        required: true,
-                      })}
+                      {...register("avatar", {})}
                     />
                   </div>
                 </div>
@@ -167,10 +173,12 @@ const Signup = () => {
           type="submit"
           className="sm:min-w-[28rem] max-w-96  bg-black"
           onClick={handleSubmit(handleSignIn)}
-          disabled={loginLoading || registerLoading || fetchLoading}
+          disabled={
+            loginLoading || registerLoading || fetchLoading || !avatar?.length
+          }
         >
           {registerLoading || loginLoading || fetchLoading ? (
-            <AiOutlineLoading className="animate-spin" />
+            <AiOutlineLoading className="animate-spin text-blue-500" />
           ) : (
             "Submit"
           )}

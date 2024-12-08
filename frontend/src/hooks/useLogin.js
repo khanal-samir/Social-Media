@@ -9,11 +9,13 @@ const useLogin = () => {
   const login = async ({ username, email, password }) => {
     try {
       setLoading(true);
-      if (!(username || email) && password)
+      if (!(username || email) && password) {
         toast({
           variant: "destructive",
           title: "All Fields are required!",
         });
+        return;
+      }
 
       const { data } = await axios.post("/api/v1/user/login", {
         username,

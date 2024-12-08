@@ -105,7 +105,7 @@ const Login = () => {
                   <DialogTitle>
                     <FaXTwitter />
                   </DialogTitle>
-                  <DialogDescription className="sm:text-2xl text-xl font-bold text-center text-white">
+                  <DialogDescription className="sm:text-2xl text-xl font-bold text-center text-white ">
                     Login
                   </DialogDescription>
                 </DialogHeader>
@@ -140,19 +140,21 @@ const Login = () => {
                   </div>
                   <Button
                     type="submit"
-                    className="w-full rounded-3xl mx-auto  bg-white text-black"
+                    className="w-full rounded-3xl mx-auto bg-white text-black"
                     onClick={handleSubmit(handleLogin)}
                     disabled={loginLoading || fetchLoading}
                   >
                     {loginLoading || fetchLoading ? (
-                      <AiOutlineLoading className="animate-spin" />
+                      <AiOutlineLoading className="animate-spin text-blue-500" />
                     ) : (
                       "Login"
                     )}
                   </Button>
                   <p className="text-center  text-muted-foreground">
                     Don{`'`}t have an account?{" "}
-                    <span className="text-blue-700">Sign up</span>
+                    <Link to="/signup">
+                      <span className="text-blue-700">Sign up</span>
+                    </Link>
                   </p>
                 </form>
               </DialogContent>
