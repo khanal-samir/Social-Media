@@ -7,8 +7,7 @@ const useGetAllUsers = () => {
   const getAllUsers = async ({ page, limit, query, sortBy, sortType } = {}) => {
     try {
       setLoading(true);
-
-      const response = await axios.get("/api/v1/user/all-users", {
+      const { data } = await axios.get("/api/v1/user/all-users", {
         params: {
           page,
           limit,
@@ -18,9 +17,10 @@ const useGetAllUsers = () => {
         },
       });
 
-      console.log(response.data.data);
+      return data.data;
     } catch (error) {
       console.error("Error fetching users:", error);
+      return false;
     } finally {
       setLoading(false);
     }

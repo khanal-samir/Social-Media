@@ -7,10 +7,11 @@ const useGetFollowingUsers = () => {
   const getFollowingUsers = async ({ userId }) => {
     try {
       setLoading(true);
-      const user = await axios.get(`/api/v1/follow/following/${userId}`);
-      console.log(user.data.data);
+      const { data } = await axios.get(`/api/v1/follow/following/${userId}`);
+      return data.data;
     } catch (error) {
       console.log(error);
+      return false;
     } finally {
       setLoading(false);
     }

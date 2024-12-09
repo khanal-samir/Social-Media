@@ -17,7 +17,6 @@ const StoriesNav = () => {
   );
   const tweets = useSelector((state) => state.tweet.tweets);
   const filteredTweet = tweets?.filter((tweet) => tweet.media !== "") || [];
-  console.log("Filtered", filteredTweet);
 
   return (
     <div className="flex flex-col gap-2 ">

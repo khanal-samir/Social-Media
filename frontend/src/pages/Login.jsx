@@ -140,7 +140,7 @@ const Login = () => {
                   </div>
                   <Button
                     type="submit"
-                    className="w-full rounded-3xl mx-auto bg-white text-black"
+                    className="dark w-full rounded-3xl mx-auto"
                     onClick={handleSubmit(handleLogin)}
                     disabled={loginLoading || fetchLoading}
                   >
