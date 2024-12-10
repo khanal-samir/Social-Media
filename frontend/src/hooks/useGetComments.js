@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
-const UseGetLikedUser = () => {
+
+const useGetComments = () => {
   const [loading, setLoading] = useState(false);
-  const getLikedUsers = async ({ tweetID }) => {
+  const getComments = async ({ tweetId }) => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/v1/like/${tweetID}`);
+      const { data } = await axios.get(`/api/v1/comment/${tweetId}`);
+      console.log(data);
       return data.data;
     } catch (error) {
       console.error(error);
@@ -13,7 +15,7 @@ const UseGetLikedUser = () => {
       setLoading(false);
     }
   };
-  return { loading, getLikedUsers };
+  return { loading, getComments };
 };
 
-export default UseGetLikedUser;
+export default useGetComments;

@@ -5,7 +5,14 @@ import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./store/store.js";
 import App from "./App.jsx";
 import "./index.css";
-import { Following, Foryou, Home, Login, Signup } from "./pages/index.js";
+import {
+  Following,
+  Foryou,
+  Home,
+  Login,
+  Signup,
+  Tweet,
+} from "./pages/index.js";
 import { AuthLayout } from "./components/index.js";
 
 const router = createBrowserRouter([
@@ -23,6 +30,7 @@ const router = createBrowserRouter([
         children: [
           { path: "/", element: <Foryou /> }, //default page
           { path: "/following", element: <Following /> },
+          { path: "/tweet/:id", element: <Tweet /> },
         ],
       },
       {
