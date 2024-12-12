@@ -11,12 +11,15 @@ export const createComment = asyncHandler(async (req, res) => {
   const { tweetId } = req.params;
   if (!content.trim()) throw new ApiError(400, "Content is required");
 
-  const comment = await Comment.create({
+  const newComment = await Comment.create({
     content,
     tweetId,
     owner: req.user?._id,
   });
-
+  const comment = await Comment.findById(newComment._id).populate(
+    "owner",
+    "email avatar username"
+  );
   if (!comment)
     throw new ApiError(500, "Something went wrong while creating comment");
   const reciever = await Tweet.findById(tweetId);

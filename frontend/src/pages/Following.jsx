@@ -12,7 +12,7 @@ const Following = () => {
   useEffect(() => {
     const fetchTweets = async () => {
       const data = await fetchFollowingTweets();
-      if (data) {
+      if (data.length > 0) {
         dispatch(allTweets(data));
         setIsFollowing(true);
         return;

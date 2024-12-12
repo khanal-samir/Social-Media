@@ -13,7 +13,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:8000", //
+        target: "https://social-media-k5zv.onrender.com", //http://localhost:8000
         changeOrigin: true,
         logLevel: "debug", // This will log the proxy details
       },

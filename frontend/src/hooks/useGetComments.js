@@ -7,7 +7,6 @@ const useGetComments = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(`/api/v1/comment/${tweetId}`);
-      console.log(data);
       return data.data;
     } catch (error) {
       console.error(error);

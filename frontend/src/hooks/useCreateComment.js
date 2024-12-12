@@ -8,7 +8,6 @@ const useCreateComment = () => {
     try {
       setLoading(true);
       const { data } = await axios.post(`/api/v1/comment/${tweetId}`, content);
-      console.log(data);
       toast({
         title: "✅ Comment created Sucessfully!",
       });

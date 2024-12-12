@@ -2,14 +2,20 @@ import axios from "axios";
 import { useState } from "react";
 import { useToast } from "./use-toast";
 
-const useUpdateComment = ({ commentId, content }) => {
+const useUpdateComment = () => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const updateTweet = async () => {
+  const updateTweet = async ({ commentId, content }) => {
     try {
+      if (!content) {
+        toast({ title: "❌ Comment content is required!" });
+        return false;
+      }
       setLoading(true);
-      const { data } = axios.patch(`/api/v1/comment/${commentId}`, content);
-      console.log(data);
+      const { data } = await axios.patch(`/api/v1/comment/${commentId}`, {
+        content,
+      });
+
       toast({ title: "✅ Comment updated Sucessfully!" });
       return data.data;
     } catch (error) {

@@ -5,4 +5,5 @@ import AuthLayout from "./AuthLayout";
 import CreatePost from "./Home/CreatePost";
 import Header from "./Home/Header";
 import Posts from "./Home/Posts";
-export { Nav, Sidebar, CreatePost, Header, Posts, AuthLayout };
+import ShowComment from "./ShowComment";
+export { Nav, Sidebar, CreatePost, Header, Posts, AuthLayout, ShowComment };

@@ -1,13 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
+import { useToast } from "./use-toast";
 const useDeleteComment = () => {
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
   const deleteComment = async ({ commentId }) => {
     try {
       setLoading(true);
       const { data } = await axios.delete(`/api/v1/comment/${commentId}`);
-      console.log(data);
-      return true;
+      toast({ title: "✅ Comment Deleted Successfully!" });
+      return data;
     } catch (error) {
       console.error(error);
       return false;

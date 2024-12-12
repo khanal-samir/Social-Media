@@ -5,7 +5,9 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+
 import { useSelector } from "react-redux";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 const StoriesNav = () => {
   const plugin = React.useRef(
@@ -19,8 +21,8 @@ const StoriesNav = () => {
   const filteredTweet = tweets?.filter((tweet) => tweet.media !== "") || [];
 
   return (
-    <div className="flex flex-col gap-2 ">
-      <h1 className="font-semibold text-center  text-sm lg:text-xl">Uploads</h1>
+    <div className="flex flex-col gap-2">
+      <h1 className="font-semibold text-center text-sm lg:text-xl">Uploads</h1>
       <hr />
       <Carousel
         plugins={[plugin.current]}
@@ -30,17 +32,28 @@ const StoriesNav = () => {
       >
         <CarouselContent className="-ml-1">
           {filteredTweet?.map((tweet, index) => (
-            <CarouselItem
-              key={index}
-              className="pl-1 md:basis-1/2 lg:basis-1/3"
-            >
-              <div className="w-28 h-28 p-2 cursor-pointer">
-                <img
-                  src={tweet.media}
-                  className="object-cover h-full w-full rounded-md border-2 transition-transform hover:scale-110"
-                />
-              </div>
-            </CarouselItem>
+            <Dialog key={index}>
+              <DialogTrigger asChild>
+                <CarouselItem className="pl-1 md:basis-1/2 lg:basis-1/3">
+                  <div className="w-28 h-28 p-2 cursor-pointer">
+                    <img
+                      src={tweet.media}
+                      alt={`Tweet media ${index}`}
+                      className="object-cover h-full w-full rounded-md border-2 transition-transform hover:scale-110"
+                    />
+                  </div>
+                </CarouselItem>
+              </DialogTrigger>
+              <DialogContent>
+                <div className="max-h-96 flex flex-col p-2 justify-center items-center">
+                  <img
+                    src={tweet.media}
+                    alt={`Tweet media ${index}`}
+                    className="w-96 h-96 object-cover rounded-md"
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
           ))}
         </CarouselContent>
       </Carousel>

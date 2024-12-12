@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FaRegComment } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
+import { addComments } from "@/store/tweetSlice";
+import { useDispatch } from "react-redux";
 import {
   Dialog,
   DialogContent,
@@ -13,13 +15,14 @@ const Comment = ({ tweet }) => {
   const { loading, createComment } = useCreateComment();
   const [countComment, setCountComment] = useState(tweet?.comments);
   const [comment, setComment] = useState("");
-
+  const dispatch = useDispatch();
   const handleCreateComment = async () => {
     if (!comment.trim()) return;
-    await createComment({
+    const data = await createComment({
       tweetId: tweet._id,
       content: { content: comment },
     });
+    dispatch(addComments(data));
     setComment("");
     setCountComment(countComment + 1);
   };

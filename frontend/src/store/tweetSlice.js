@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   tweets: [],
-  singleTweet: {},
-  likes: [],
   comment: [],
 };
 
@@ -28,17 +26,15 @@ const tweetSlice = createSlice({
           : tweet,
       );
     },
-    setLikedUsers: (state, action) => {
-      state.likes = action.payload;
-    },
-    removeLikedUsers: (state) => {
-      state.likes = [];
-    },
 
     allComments: (state, action) => {
       state.comment = action.payload;
     },
     addComments: (state, action) => {
+      if (!state.comment) {
+        state.comment = [action.payload];
+        return;
+      }
       state.comment.unshift(action.payload);
     },
     rmComments: (state, action) => {
@@ -61,8 +57,6 @@ export const {
   addTweet,
   rmTweet,
   updateTweet,
-  setLikedUsers,
-  removeLikedUsers,
   allComments,
   addComments,
   rmComments,
