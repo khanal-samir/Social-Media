@@ -12,6 +12,10 @@ import {
   Login,
   Signup,
   Tweet,
+  Inbox,
+  Profile,
+  Search,
+  Settings,
 } from "./pages/index.js";
 import { AuthLayout } from "./components/index.js";
 
@@ -32,6 +36,40 @@ const router = createBrowserRouter([
           { path: "/following", element: <Following /> },
           { path: "/tweet/:id", element: <Tweet /> },
         ],
+      },
+
+      {
+        path: "/search",
+        element: (
+          <AuthLayout authentication={true}>
+            <Search />
+          </AuthLayout>
+        ),
+      },
+
+      {
+        path: "/profile",
+        element: (
+          <AuthLayout authentication={true}>
+            <Profile />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/settings",
+        element: (
+          <AuthLayout authentication={true}>
+            <Settings />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "/inbox",
+        element: (
+          <AuthLayout authentication={true}>
+            <Inbox />
+          </AuthLayout>
+        ),
       },
       {
         path: "/login",

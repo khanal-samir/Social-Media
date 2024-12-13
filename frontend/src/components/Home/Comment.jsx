@@ -11,11 +11,16 @@ import {
 } from "@/components/ui/dialog";
 import useCreateComment from "@/hooks/useCreateComment";
 import { AiOutlineLoading } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+import { useLocation, matchPath } from "react-router-dom";
 const Comment = ({ tweet }) => {
   const { loading, createComment } = useCreateComment();
   const [countComment, setCountComment] = useState(tweet?.comments);
   const [comment, setComment] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isTweetPage = matchPath("/tweet/:id", location.pathname);
   const handleCreateComment = async () => {
     if (!comment.trim()) return;
     const data = await createComment({
@@ -25,6 +30,7 @@ const Comment = ({ tweet }) => {
     dispatch(addComments(data));
     setComment("");
     setCountComment(countComment + 1);
+    if (!isTweetPage) navigate(`/tweet/${tweet._id}`);
   };
 
   return (

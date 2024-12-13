@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import axios from "axios";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -6,10 +7,19 @@ const useGetAllTweets = () => {
   const user = useSelector((state) => state.auth.status);
   if (!user) return false;
 
-  const getTweets = async () => {
+  const getTweets = async ({ page, limit, query, sortBy, sortType }) => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/v1/tweet/all-tweets`);
+      const { data } = await axios.get("/api/v1/tweet/all-tweets", {
+        params: {
+          page,
+          limit,
+          query,
+          sortBy,
+          sortType,
+        },
+      });
+
       return data.data;
     } catch (error) {
       console.error(error);

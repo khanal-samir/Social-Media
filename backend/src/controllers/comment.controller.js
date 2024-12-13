@@ -72,10 +72,9 @@ export const deleteComment = asyncHandler(async (req, res) => {
 // might need to aggregate
 export const getTweetComments = asyncHandler(async (req, res) => {
   const { tweetId } = req.params;
-  const tweetComments = await Comment.find({ tweetId: tweetId }).populate(
-    "owner",
-    "email avatar username"
-  );
+  const tweetComments = await Comment.find({ tweetId: tweetId })
+    .populate("owner", "email avatar username")
+    .sort({ createdAt: -1 });
   if (tweetComments.length === 0)
     return res
       .status(200)

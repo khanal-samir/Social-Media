@@ -14,8 +14,7 @@ const FollowBar = () => {
     const getUsers = async () => {
       if (!user) return;
       if (followUsers.length !== 0) return;
-      const allUsers = (await getAllUsers({ limit: 10 })) || [];
-
+      const allUsers = (await getAllUsers({ limit: 20 })) || [];
       const followingUsers =
         (await getFollowingUsers({ userId: user?._id })) || [];
 
@@ -30,7 +29,7 @@ const FollowBar = () => {
       );
     };
     getUsers();
-  }, [user]);
+  }, [user, followUsers.length]);
 
   return (
     <div className="hidden sm:block">
