@@ -6,7 +6,9 @@ const useGetNotifications = () => {
   const getNotfications = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("/api/v1/notification/");
+      const { data } = await axios.get(
+        "https://social-media-k5zv.onrender.com/api/v1/notification/",
+      );
       console.log("data in hooks", data);
 
       return data.data;
