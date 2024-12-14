@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/api/v1/notification/",
+      "destination": "https://social-media-k5zv.onrender.com/api/v1/notification/"
+    },
+    {
       "source": "/api/:path*",
       "destination": "https://social-media-k5zv.onrender.com/api/:path*"
     },
