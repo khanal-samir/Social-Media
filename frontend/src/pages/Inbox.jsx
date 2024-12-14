@@ -16,13 +16,13 @@ const Inbox = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       const data = await getNotfications();
-      if (data.length > 0) {
+      if (data && data.length > 0) {
         setNotifications(data);
       }
     };
 
     const fetchTweets = async () => {
-      if (tweets.length === 0) {
+      if (tweets && tweets.length === 0) {
         const data = await getTweets({ page: 1 });
         dispatch(allTweets(data));
       }
