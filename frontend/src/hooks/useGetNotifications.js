@@ -7,6 +7,8 @@ const useGetNotifications = () => {
     try {
       setLoading(true);
       const { data } = await axios.get("/api/v1/notification/");
+      console.log("data in hooks", data);
+
       return data.data;
     } catch (error) {
       console.error(error);

@@ -18,7 +18,7 @@ const Inbox = () => {
       const data = await getNotfications();
       if (data && data.length > 0) {
         setNotifications(data);
-        console.log(data);
+        console.log("data", data);
       }
     };
 
