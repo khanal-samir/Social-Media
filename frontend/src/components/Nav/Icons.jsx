@@ -43,7 +43,7 @@ const Icons = () => {
         <Link
           to={item.to}
           key={index}
-          className="w-fit p-2 flex gap-x-2 sm:gap-x-4 overflow-hidden cursor-pointer hover:text-blue-600 hover:bg-transparent rounded-md"
+          className="w-fit p-4 flex gap-x-2 sm:gap-x-4 overflow-hidden cursor-pointer hover:bg-gray-200  dark:hover:bg-primary-foreground rounded-full"
         >
           {item.icon}
           <span className="hidden sm:block  lg:text-lg font-semibold">
