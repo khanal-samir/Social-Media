@@ -47,7 +47,7 @@ const AuthLayout = ({ children, authentication = true }) => {
   return (
     <div>
       {loading ? (
-        <div className="h-screen bg-black text-white flex justify-center items-center text-5xl  border-2">
+        <div className="h-screen w-screen overflow-hidden bg-black text-white flex justify-center items-center text-5xl  border-2">
           <FaXTwitter className="animate-bounce" />
         </div>
       ) : (
