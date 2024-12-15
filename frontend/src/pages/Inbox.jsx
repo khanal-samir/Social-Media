@@ -7,6 +7,7 @@ import Notifications from "@/components/Inbox/Notifications";
 import useGetAllTweets from "@/hooks/useGetAllTweets";
 import { useDispatch, useSelector } from "react-redux";
 import { allTweets } from "@/store/tweetSlice";
+
 const Inbox = () => {
   const [notifications, setNotifications] = useState([]);
   const { getNotfications, loading } = useGetNotifications();
@@ -18,8 +19,9 @@ const Inbox = () => {
       const data = await getNotfications();
       if (data && data.length > 0) {
         setNotifications(data);
-        console.log("data", data);
+        return;
       }
+      setNotifications([]);
     };
 
     const fetchTweets = async () => {
