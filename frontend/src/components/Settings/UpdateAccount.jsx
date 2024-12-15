@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import useGetUser from "@/hooks/useGetUser";
 import { useDispatch } from "react-redux";
 import { login } from "@/store/authSlice";
+import { AiOutlineLoading } from "react-icons/ai";
 
 const UpdateAccount = ({ fullName, bio, username }) => {
   const [newFullName, setNewFullName] = useState(fullName || "");
@@ -52,7 +53,7 @@ const UpdateAccount = ({ fullName, bio, username }) => {
         </AccordionTrigger>
 
         <AccordionContent>
-          <div className="flex flex-col gap-4 border-b-2 px-4 py-2">
+          <div className="flex flex-col gap-4 px-4 py-2">
             <div>
               <p className="text-red-600 text-xs">
                 {isDisabled ? "Please update current Details" : ""}
@@ -93,7 +94,11 @@ const UpdateAccount = ({ fullName, bio, username }) => {
                 />
               </Label>
               <Button onClick={handleUpdate} disabled={isDisabled}>
-                Update
+                {loading || userLoading ? (
+                  <AiOutlineLoading className="animate-spin" />
+                ) : (
+                  <>Update</>
+                )}
               </Button>
             </div>
           </div>

@@ -1,11 +1,31 @@
 import ChangePass from "@/components/Settings/ChangePass";
 import UpdateAccount from "@/components/Settings/UpdateAccount";
+import UpdateAvatar from "@/components/Settings/UpdateAvatar";
+import UpdateCoverImage from "@/components/Settings/UpdateCoverImage";
+import useGetAllTweets from "@/hooks/useGetAllTweets";
+import { allTweets } from "@/store/tweetSlice";
 import { MoveLeft } from "lucide-react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Settings = () => {
   const user = useSelector((state) => state.auth.userInfo);
+  const tweets = useSelector((state) => state.tweet.tweets);
+  const dispatch = useDispatch();
+  const { getTweets } = useGetAllTweets();
+  useEffect(() => {
+    const fetchTweets = async () => {
+      if (tweets.length === 0) {
+        const data = await getTweets({ page: 1 });
+        if (data) {
+          dispatch(allTweets(data));
+        }
+      }
+      return;
+    };
+    fetchTweets();
+  }, [dispatch, tweets.length]);
 
   return (
     <div className="min-h-screen border-x-2 flex flex-col gap-2">
@@ -27,13 +47,8 @@ const Settings = () => {
           username={user?.username}
         />
         <ChangePass />
-        <div>
-          <h2 className="text-muted-foreground">Update Avatar</h2>
-        </div>
-
-        <div>
-          <h2 className="text-muted-foreground">Update CoverImage</h2>
-        </div>
+        <UpdateAvatar />
+        <UpdateCoverImage />
       </div>
     </div>
   );
