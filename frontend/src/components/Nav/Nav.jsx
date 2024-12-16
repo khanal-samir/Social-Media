@@ -21,7 +21,7 @@ const Nav = () => {
   }, [dispatch, dark, theme]);
 
   return (
-    <div className="w-full h-full max-h-screen px-2 flex flex-col justify-around border-l-2">
+    <div className="w-full h-full max-h-screen px-2 flex flex-col justify-around sm:border-l-2">
       <div className="px-2 flex ">
         <FaXTwitter
           className="w-full h-full sm:w-auto sm:h-auto text-3xl  sm:text-5xl cursor-pointer "

@@ -22,7 +22,9 @@ const Notifications = ({ notifications }) => {
                 className="w-12 h-12 rounded-full"
               />
               <p>{noti.senderId.username}</p>
-              <p className="text-muted-foreground">{noti.senderId.email}</p>
+              <p className="text-muted-foreground hidden lg:block">
+                {noti.senderId.email}
+              </p>
             </div>
             <p className="text-muted-foreground">
               {new Date(noti.createdAt).toDateString()}

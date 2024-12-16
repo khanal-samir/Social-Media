@@ -48,7 +48,7 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "/profile",
+        path: "/profile/:id",
         element: (
           <AuthLayout authentication={true}>
             <Profile />
