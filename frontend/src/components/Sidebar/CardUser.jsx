@@ -26,10 +26,10 @@ const CardUser = ({ user }) => {
       </div>
 
       <Button
-        className={`rounded-3xl ${isLiked ? "bg-gray-700" : null}`}
+        className={`rounded-3xl ${isLiked ? "bg-blue-500" : null}`}
         onClick={handleClick}
       >
-        {!isLiked ? <>Follow</> : <>Followed</>}
+        {!isLiked ? <>Follow</> : <>Following</>}
       </Button>
     </div>
   );

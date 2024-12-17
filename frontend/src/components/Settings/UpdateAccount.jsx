@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { login } from "@/store/authSlice";
 import { AiOutlineLoading } from "react-icons/ai";
 
-const UpdateAccount = ({ fullName, bio, username }) => {
+const UpdateAccount = ({ id, fullName, bio, username }) => {
   const [newFullName, setNewFullName] = useState(fullName || "");
   const [newBio, setNewBio] = useState(bio || "");
   const [newUsername, setNewUsername] = useState(username || "");
@@ -40,7 +40,7 @@ const UpdateAccount = ({ fullName, bio, username }) => {
     if (data) {
       const user = await fetchUser();
       dispatch(login(user));
-      navigate("/profile");
+      navigate(`/profile/${id}`);
     }
   };
 
