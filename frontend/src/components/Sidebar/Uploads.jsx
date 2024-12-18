@@ -20,6 +20,7 @@ const StoriesNav = () => {
   const tweets = useSelector((state) => state.tweet.tweets);
   const filteredTweet = tweets?.filter((tweet) => tweet.media !== "") || [];
 
+  if (filteredTweet.length === 0) return null;
   return (
     <div className="flex flex-col gap-2">
       <h1 className="font-semibold text-center text-sm lg:text-xl">Uploads</h1>

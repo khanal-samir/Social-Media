@@ -3,7 +3,13 @@ import SinglePost from "./SinglePost";
 
 const Posts = () => {
   const tweets = useSelector((state) => state.tweet.tweets);
-  if (!tweets) return;
+  if (!tweets.length)
+    return (
+      <div className="text-muted-foreground text-xl text-center mt-48">
+        {" "}
+        No Tweets Found!
+      </div>
+    );
   //loop posts
   return (
     <div>

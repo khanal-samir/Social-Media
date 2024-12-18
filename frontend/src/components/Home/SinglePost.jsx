@@ -13,11 +13,11 @@ const SinglePost = ({ tweet }) => {
 
   return (
     <div className="flex flex-col sm:gap-2 p-2 border-b-2 overflow-hidden">
-      <Link
-        to={`/profile/${tweet?.owner._id}`}
-        className="flex  items-center justify-between px-2 text-sm sm:text-base"
-      >
-        <div className="flex items-center gap-3">
+      <div className="flex  items-center justify-between px-2 text-sm sm:text-base">
+        <Link
+          to={`/profile/${tweet?.owner._id}`}
+          className="flex items-center gap-3 hover:bg-primary-foreground rounded-md"
+        >
           <img
             src={tweet?.owner.avatar}
             alt="avatar"
@@ -30,7 +30,7 @@ const SinglePost = ({ tweet }) => {
           <span className="text-muted-foreground">
             {new Date(tweet?.createdAt).toLocaleDateString()}
           </span>
-        </div>
+        </Link>
 
         <div>
           {isUserTweet && (
@@ -42,7 +42,7 @@ const SinglePost = ({ tweet }) => {
             />
           )}
         </div>
-      </Link>
+      </div>
 
       <div className="flex flex-col gap-2 ">
         {isUpdate ? (

@@ -10,6 +10,7 @@ import Search from "./Search";
 import Settings from "./Settings";
 import UserFollow from "./UserFollow";
 import ProfileTweets from "./ProfileTweets";
+import NotFound from "./NotFound";
 
 export {
   Login,
@@ -24,4 +25,5 @@ export {
   Settings,
   UserFollow,
   ProfileTweets,
+  NotFound,
 };
