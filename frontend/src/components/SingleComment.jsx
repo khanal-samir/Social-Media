@@ -15,7 +15,7 @@ const SingleComment = ({ comment }) => {
             className="w-8 h-8 rounded-full"
           />
           <p className="font-bold">{comment.owner.username}</p>
-          <p className="text-xs">{comment.owner.email}</p>
+          <p className="text-xs hidden lg:block">{comment.owner.email}</p>
           <p>{new Date(comment.createdAt).toLocaleDateString()}</p>
         </div>
 

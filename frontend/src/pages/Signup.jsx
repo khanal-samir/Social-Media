@@ -44,7 +44,6 @@ const Signup = () => {
   return (
     <div className="min-h-screen bg-black text-white sm:grid sm:grid-cols-12 sm:gap-2 overflow-hidden">
       <FaXTwitter className="w-full m-auto hidden sm:col-span-4 sm:block sm:p-10 sm:text-[24em] " />
-
       <form className="space-y-4 sm:col-span-8 p-4 sm:grid sm:justify-center">
         <Tabs defaultValue="required" className="sm:min-w-[28rem] max-w-96">
           <TabsList className="grid grid-cols-2 font-bold">

@@ -8,6 +8,8 @@ import Inbox from "./Inbox";
 import Profile from "./Profile";
 import Search from "./Search";
 import Settings from "./Settings";
+import UserFollow from "./UserFollow";
+import ProfileTweets from "./ProfileTweets";
 
 export {
   Login,
@@ -20,4 +22,6 @@ export {
   Profile,
   Search,
   Settings,
+  UserFollow,
+  ProfileTweets,
 };

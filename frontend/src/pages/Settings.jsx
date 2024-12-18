@@ -42,6 +42,7 @@ const Settings = () => {
 
       <div className="flex flex-col gap-4 p-4">
         <UpdateAccount
+          id={user?._id}
           fullName={user?.fullName}
           bio={user?.bio}
           username={user?.username}

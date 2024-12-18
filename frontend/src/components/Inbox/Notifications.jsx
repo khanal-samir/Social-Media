@@ -11,6 +11,7 @@ const Notifications = ({ notifications }) => {
     <>
       {notifications.map((noti) => (
         <Link
+          to={`/profile/${noti.senderId._id}`}
           key={noti._id}
           className="flex flex-col gap-2 p-4 border-b-2  hover:bg-gray-200 dark:hover:bg-primary-foreground"
         >
@@ -22,7 +23,9 @@ const Notifications = ({ notifications }) => {
                 className="w-12 h-12 rounded-full"
               />
               <p>{noti.senderId.username}</p>
-              <p className="text-muted-foreground">{noti.senderId.email}</p>
+              <p className="text-muted-foreground hidden lg:block">
+                {noti.senderId.email}
+              </p>
             </div>
             <p className="text-muted-foreground">
               {new Date(noti.createdAt).toDateString()}

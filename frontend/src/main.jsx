@@ -16,6 +16,8 @@ import {
   Profile,
   Search,
   Settings,
+  UserFollow,
+  ProfileTweets,
 } from "./pages/index.js";
 import { AuthLayout } from "./components/index.js";
 
@@ -48,12 +50,22 @@ const router = createBrowserRouter([
       },
 
       {
-        path: "/profile",
+        path: "/profile/:id",
         element: (
           <AuthLayout authentication={true}>
             <Profile />
           </AuthLayout>
         ),
+        children: [
+          {
+            path: "/profile/:id/follow",
+            element: <UserFollow />,
+          },
+          {
+            path: "/profile/:id/",
+            element: <ProfileTweets />,
+          },
+        ],
       },
       {
         path: "/settings",
