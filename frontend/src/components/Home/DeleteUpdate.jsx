@@ -12,17 +12,20 @@ import useUpdateTweet from "@/hooks/useUpdateTweet";
 import { rmTweet, updateTweet as sliceUpdateTweet } from "@/store/tweetSlice";
 import { useDispatch } from "react-redux";
 import { Button } from "../ui/button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const DeleteUpdate = ({ tweet, update, content, isUpdate }) => {
   const { loading: deleteLoading, deleteTweet } = useDeleteTweet();
   const { loading: updateLoading, updateTweet } = useUpdateTweet();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const handleDelete = async () => {
     const response = await deleteTweet(tweet._id);
     if (response) {
       dispatch(rmTweet(tweet));
-      navigate("/");
+      if (location !== "/") {
+        navigate("/");
+      }
     }
   };
 

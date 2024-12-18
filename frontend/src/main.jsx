@@ -18,6 +18,7 @@ import {
   Settings,
   UserFollow,
   ProfileTweets,
+  NotFound,
 } from "./pages/index.js";
 import { AuthLayout } from "./components/index.js";
 
@@ -96,6 +97,14 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication={false}>
             <Signup />,
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "*",
+        element: (
+          <AuthLayout authentication={true}>
+            <NotFound />
           </AuthLayout>
         ),
       },
