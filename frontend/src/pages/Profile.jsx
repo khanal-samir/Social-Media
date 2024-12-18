@@ -1,5 +1,5 @@
 import useGetUserDetails from "@/hooks/useGetUserDetails";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Info from "@/components/Profile/Info";
 import { ArrowLeft } from "lucide-react";
@@ -51,6 +51,7 @@ const Profile = () => {
         <h1 className="text-2xl font-bold">Profile</h1>
       </div>
       <Info userDetails={userDetails} />
+      <Outlet />
     </div>
   );
 };

@@ -16,6 +16,8 @@ import {
   Profile,
   Search,
   Settings,
+  UserFollow,
+  ProfileTweets,
 } from "./pages/index.js";
 import { AuthLayout } from "./components/index.js";
 
@@ -54,6 +56,16 @@ const router = createBrowserRouter([
             <Profile />
           </AuthLayout>
         ),
+        children: [
+          {
+            path: "/profile/:id/follow",
+            element: <UserFollow />,
+          },
+          {
+            path: "/profile/:id/",
+            element: <ProfileTweets />,
+          },
+        ],
       },
       {
         path: "/settings",

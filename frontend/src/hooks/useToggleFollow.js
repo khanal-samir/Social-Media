@@ -8,6 +8,7 @@ const useToggleFollow = () => {
       const { data } = await axios.post(`/api/v1/follow/${userId}`);
       if (data.data) {
         toast({ title: "✅ User followed successfully" });
+        return data.data;
       } else {
         toast({
           title: "❌ User unfollowed successfully",

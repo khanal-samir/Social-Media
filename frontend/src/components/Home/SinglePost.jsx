@@ -13,7 +13,10 @@ const SinglePost = ({ tweet }) => {
 
   return (
     <div className="flex flex-col sm:gap-2 p-2 border-b-2 overflow-hidden">
-      <header className="flex  items-center justify-between px-2 text-sm sm:text-base ">
+      <Link
+        to={`/profile/${tweet?.owner._id}`}
+        className="flex  items-center justify-between px-2 text-sm sm:text-base"
+      >
         <div className="flex items-center gap-3">
           <img
             src={tweet?.owner.avatar}
@@ -39,7 +42,7 @@ const SinglePost = ({ tweet }) => {
             />
           )}
         </div>
-      </header>
+      </Link>
 
       <div className="flex flex-col gap-2 ">
         {isUpdate ? (

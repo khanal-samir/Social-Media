@@ -11,6 +11,7 @@ const Notifications = ({ notifications }) => {
     <>
       {notifications.map((noti) => (
         <Link
+          to={`/profile/${noti.senderId._id}`}
           key={noti._id}
           className="flex flex-col gap-2 p-4 border-b-2  hover:bg-gray-200 dark:hover:bg-primary-foreground"
         >

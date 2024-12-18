@@ -10,6 +10,7 @@ import useLogout from "@/hooks/useLogout";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { logout as sliceLogout } from "@/store/authSlice";
+import { Link } from "react-router-dom";
 
 function UserInfo() {
   const { logout } = useLogout();
@@ -54,9 +55,12 @@ function UserInfo() {
         <DropdownMenuContent className="p-2 font-semibold ">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer">
-            Profile
-          </DropdownMenuItem>
+          <Link to={`/profile/${user?._id}`}>
+            {" "}
+            <DropdownMenuItem className="cursor-pointer">
+              Profile
+            </DropdownMenuItem>
+          </Link>
           <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
             Logout
           </DropdownMenuItem>

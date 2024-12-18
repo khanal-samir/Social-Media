@@ -14,16 +14,28 @@ import useToggleFollow from "@/hooks/useToggleFollow";
 
 const Info = ({ userDetails }) => {
   const user = useSelector((state) => state.auth.userInfo);
-
+  const [followers, setFollowers] = useState(0);
   const [isFollowing, setIsFollowing] = useState(false);
   const toggleFollow = useToggleFollow();
+
   useEffect(() => {
     setIsFollowing(userDetails?.isFollowing);
-  }, [userDetails.isFollowing]);
+    setFollowers(userDetails?.followersCount);
+  }, [userDetails.isFollowing, userDetails.followersCount]);
 
   const handleToggleFollow = async () => {
     setIsFollowing((prev) => !prev);
-    await toggleFollow({ userId: userDetails._id });
+
+    const data = await toggleFollow({ userId: userDetails._id });
+    if (data && isFollowing) {
+      setFollowers((prev) => prev - 1);
+      return;
+    }
+    if (data && !isFollowing) {
+      setFollowers((prev) => prev + 1);
+      return;
+    }
+    setFollowers((prev) => prev - 1);
   };
 
   if (!userDetails) return <></>;
@@ -61,7 +73,7 @@ const Info = ({ userDetails }) => {
       </Dialog>
 
       {/* Profile Image */}
-      <div className="flex justify-between items-center bg-primary-foreground border-b-2 px-4 py-2">
+      <div className="flex justify-between items-center bg-primary-foreground px-4 py-2">
         <div className="flex items-center gap-2">
           <img
             src={userDetails.avatar}
@@ -85,7 +97,7 @@ const Info = ({ userDetails }) => {
           </div>
         </div>
 
-        {userDetails._id === user._id ? (
+        {userDetails?._id === user?._id ? (
           <Link to="/settings">
             {" "}
             <Button
@@ -105,7 +117,21 @@ const Info = ({ userDetails }) => {
         )}
       </div>
 
-      {/* Bio */}
+      {/* Follow*/}
+
+      <Link
+        className="bg-primary-foreground border-b-2 p-2"
+        to={`/profile/${userDetails._id}/follow`}
+      >
+        <div className="flex items-center gap-4 px-2">
+          <p className="text-muted-foreground hover:underline">
+            {userDetails.followingCount} Following
+          </p>
+          <p className="text-muted-foreground hover:underline">
+            {followers} Followers
+          </p>
+        </div>
+      </Link>
     </div>
   );
 };
