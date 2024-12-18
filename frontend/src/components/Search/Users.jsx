@@ -23,7 +23,9 @@ const Users = () => {
               className="w-10 h-10 rounded-full"
             />
             <h2 className="font-semibold">{u?.username}</h2>
-            <span className="text-muted-foreground">{u?.email}</span>
+            <span className="text-muted-foreground hidden lg:block">
+              {u?.email}
+            </span>
           </Link>
         ))
       ) : (
