@@ -41,7 +41,7 @@ const Info = ({ userDetails }) => {
   if (!userDetails) return <></>;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col flex-wrap">
       {/* Cover Image */}
       <Dialog>
         <DialogTrigger>
@@ -81,18 +81,22 @@ const Info = ({ userDetails }) => {
             className="rounded-full w-24 h-24 border-2 border-blue-500 shadow-lg"
           />
           <div className="flex flex-col gap-1 flex-wrap">
-            <h1 className="font-bold text-xl cursor-pointer hover:underline">
+            <h1 className="font-bold sm:text-xl text-sm cursor-pointer hover:underline">
               {userDetails.fullName}
             </h1>
-            <h1 className="text-xs font-light cursor-pointer hover:underline">{`@${userDetails.username}`}</h1>
+            <h1 className="text-xs  font-light cursor-pointer hover:underline">{`@${userDetails.username}`}</h1>
             <h1 className="text-xs text-muted-foreground cursor-pointer hover:underline">
               {userDetails.email}
             </h1>
             {/* Bio */}
             {userDetails.bio && userDetails.bio !== "undefined" ? (
-              <p className="text-sm text-muted-foreground">{userDetails.bio}</p>
+              <p className="text-sm hidden sm:block text-muted-foreground">
+                {userDetails.bio}
+              </p>
             ) : (
-              <p className="text-sm text-muted-foreground">No bio available</p>
+              <p className=" text-sm hidden sm:block text-muted-foreground">
+                No bio available
+              </p>
             )}
           </div>
         </div>
