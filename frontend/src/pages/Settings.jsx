@@ -48,7 +48,7 @@ const Settings = () => {
           username={user?.username}
         />
         <ChangePass />
-        <UpdateAvatar />
+        <UpdateAvatar id={user?._id} />
         <UpdateCoverImage />
       </div>
     </div>

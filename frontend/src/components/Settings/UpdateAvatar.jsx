@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "@/store/authSlice";
 import useGetUser from "@/hooks/useGetUser";
-const UpdateAvatar = () => {
+const UpdateAvatar = ({ id }) => {
   const { loading, updateAvatar } = useUpdateAvatar();
   const [img, setImg] = useState(null);
   const { toast } = useToast();
@@ -34,7 +34,7 @@ const UpdateAvatar = () => {
     if (data) {
       const user = await fetchUser();
       dispatch(login(user));
-      navigate("/profile");
+      navigate(`/profile/${id}`);
     }
   };
 
