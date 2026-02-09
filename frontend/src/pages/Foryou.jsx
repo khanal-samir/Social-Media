@@ -27,8 +27,10 @@ const Foryou = () => {
         dispatch(allTweets(data));
         return;
       } else {
-        toast({ variant: "destructive", title: "No more tweets to show " });
-        setCurrentPage(currentPage - 1);
+        if (currentPage > 1) {
+          toast({ variant: "destructive", title: "No more tweets to show " });
+        }
+        setCurrentPage((prev) => Math.max(1, prev - 1));
       }
     };
     fetchTweets();

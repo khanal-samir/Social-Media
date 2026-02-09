@@ -24,7 +24,7 @@ const FollowBar = () => {
       setFollowUsers(
         allUsers
           ?.sort(() => Math.random() - 0.5) // Shuffle the array
-          ?.filter((u) => !followingUserIds?.includes(u._id)) // Filter out users already followed
+          ?.filter((u) => !followingUserIds?.includes(u._id) && u._id !== user._id) // Filter out users already followed and current user
           ?.slice(0, 3),
       );
     };

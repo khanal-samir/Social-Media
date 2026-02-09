@@ -60,7 +60,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden">
-      <div className="flex flex-col gap-4 sm:flex-row sm:justify-around p-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:justify-center sm:items-center p-6 max-w-4xl mx-auto">
         <div className="sm:flex sm:justify-center sm:items-center">
           <FaXTwitter className="text-5xl sm:text-[20rem]" />
         </div>

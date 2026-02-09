@@ -1,4 +1,4 @@
-import { FaRegHeart } from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
 import useToggleLike from "@/hooks/useToggleLike";
 import { useSelector } from "react-redux";
 import { useState } from "react";
@@ -26,9 +26,11 @@ const Likes = ({ tweet }) => {
       className={`flex justify-center items-center gap-2 sm:gap-4  cursor-pointer`}
       onClick={handleLike}
     >
-      <FaRegHeart
-        className={`${isLiked ? "text-red-600 hover:text-muted-foreground" : "hover:text-red-600"}`}
-      />
+      {isLiked ? (
+        <FaHeart className="text-red-600 hover:text-muted-foreground" />
+      ) : (
+        <FaRegHeart className="hover:text-red-600" />
+      )}
       <span
         className={`${isLiked ? "text-red-600 hover:text-muted-foreground" : "hover:text-red-600"}`}
       >
